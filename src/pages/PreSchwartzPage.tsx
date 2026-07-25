@@ -33,22 +33,7 @@ const productions80sSlides = [
   { src: "/scans/misc8485_01.jpg", caption: "Backstage, c. 1984–85, possibly David Feldshuh." },
 ];
 
-const midsummerSlides = scan("midsummer", 10,
-  "A Midsummer Night's Dream on tour, dir. David Feldshuh, 1984.");
-
-const scriptInHandSlides = [
-  ...scan("lilacs", 3, "Now That Lilacs Are in Bloom, Script in Hand reading, November 19, 1984. Photo: Jon Crispin."),
-  ...scan("tovah", 1, "Tovah Feldshuh in Now That Lilacs Are in Bloom, 1984. Photo: Jon Crispin."),
-  ...scan("payback", 1, "Edward Payson Call, director, at the Payback reading, February 11, 1985. Photo: Jon Crispin."),
-  ...scan("payback", 1, "Paul D'Andrea, author of Payback, February 11, 1985. Photo: Jon Crispin.", 3),
-  ...scan("summerwinds", 1, "Summer Winds, Script in Hand reading, April 15, 1985. Photo: Jon Crispin."),
-  ...scan("summerwinds", 1, "Summer Winds, Script in Hand reading, April 15, 1985. Photo: Patricia Reynolds.", 4),
-  ...scan("horseplay", 2, "Horseplay & Disease, Script in Hand reading, April 29, 1985. Photo: Jon Crispin."),
-];
-
 const jeroSlides = scan("jero", 10, "The Jero Plays, dir. David Feldshuh, 1985–86 season. Photo: Jon Crispin.");
-
-const looseEndsSlides = scan("loose_ends", 10, "Loose Ends, dir. Bruce Levitt, 1986–87 season. Photo: Patricia Reynolds.");
 
 const danceSlides = [
   ...scan("springdance85", 2, "Spring Dance '85. Photo: Jon Crispin."),
@@ -615,28 +600,6 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
     </button>
   );
 }
-
-function BoxCard({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        flex: 1,
-        border: `1px solid ${hovered ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.1)"}`,
-        borderRadius: 4,
-        transform: hovered ? "translateY(-3px)" : "translateY(0)",
-        boxShadow: hovered ? "0 8px 24px rgba(0,0,0,0.07)" : "none",
-        transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
 
 function ChapterIVSection() {
   const topStats = [
