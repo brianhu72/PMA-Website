@@ -474,6 +474,31 @@ const ALUMNI_ERAS: AlumniEra[] = [
         affiliation: "Class of 2000",
         blurb: "A stage director who won the Tony Award for Best Direction of a Musical for Fun Home, with a further Tony nomination for direction of a play and four Drama Desk nominations. He has directed extensively on Broadway and off-Broadway.",
       },
+      {
+        name: "Maria Dizzia",
+        affiliation: "Class of 1998",
+        blurb: "An actor whose Cornell productions included The Importance of Being Earnest and Tartuffe. She received a 2010 Tony Award nomination for Best Featured Actress in a Play for In the Next Room, or the vibrator play, and has worked across theatre, film, and television.",
+      },
+      {
+        name: "Lee Rosenthal",
+        affiliation: "Class of 1987",
+        blurb: "A producer who co-founded Whistling Shrimp with Bob Clendenin while at Cornell. He is President of Worldwide Physical Production for Paramount Pictures and Nickelodeon Studios, overseeing production across film and television.",
+      },
+      {
+        name: "Bob Clendenin",
+        affiliation: "Class of 1987",
+        blurb: "An actor and co-founder of Whistling Shrimp who built a career in Los Angeles across television, film, and commercials. He has appeared in more than one hundred television shows and also co-founded Circle X Theatre Company.",
+      },
+      {
+        name: "Randy Reinholz",
+        affiliation: "M.F.A. 1988",
+        blurb: "A Choctaw director, producer, playwright, and actor who co-created Native Voices at the Autry with Jean Bruce Scott. The company develops and produces new work by Native American, Alaska Native, and First Nations playwrights.",
+      },
+      {
+        name: "Harvey Young",
+        affiliation: "Ph.D. 2004",
+        blurb: "A scholar of theatre and performance who is Dean of the College of Fine Arts and Interim Vice President for the Arts at Boston University. He holds appointments in English, Theatre Arts, and African American and Black Diaspora Studies.",
+      },
     ],
   },
   {
