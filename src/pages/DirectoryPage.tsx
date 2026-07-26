@@ -136,7 +136,7 @@ const ALL_RPTAS: RPTA[] = [
   { year: 2008, name: "Michael Kaplan",           role: "Actor" },
 ];
 
-const TABS = ["Current Faculty", "Notable Alumni", "Theatre Associates"] as const;
+const TABS = ["Current Faculty", "Department Contacts", "Notable Alumni", "Theatre Associates"] as const;
 
 
 interface Faculty { name: string; title: string; bioUrl: string }
@@ -169,6 +169,61 @@ const FACULTY: Faculty[] = [
   { name: "Aoise Stratford",          title: "Senior Lecturer and Advising Dean", bioUrl: "https://pma.cornell.edu/aoise-stratford" },
   { name: "Kristen Warner",           title: "Associate Professor", bioUrl: "https://pma.cornell.edu/kristen-warner" },
   { name: "Sara Warner",              title: "Associate Professor", bioUrl: "https://pma.cornell.edu/sara-warner" },
+];
+
+interface Contact {
+  name: string;
+  title: string;
+  office?: string;
+  email?: string;
+  phone?: string;
+  responsibilities?: string;
+}
+
+interface ContactGroup { title: string; people: Contact[] }
+
+const CONTACT_GROUPS: ContactGroup[] = [
+  {
+    title: "Leadership and Administration",
+    people: [
+      { name: "Samantha Noelle Sheppard", title: "Department Chair, Professor", office: "423 Schwartz", email: "sheppard@cornell.edu" },
+      { name: "Karen Jaime", title: "Director of Graduate Studies, Associate Professor", office: "233 Schwartz", email: "pma-dgs@cornell.edu" },
+      { name: "David M. Feldshuh", title: "Director of Undergraduate Studies, Professor", office: "234 Schwartz", email: "PMA-DUS@cornell.edu", phone: "607-254-2717" },
+      { name: "Christopher Riley", title: "Senior Department Manager", office: "222 Schwartz", email: "cjr20@cornell.edu", phone: "607-254-2731", responsibilities: "Department resources, staff, and general administrative support." },
+      { name: "Hannah Langtry", title: "Assistant Manager of Finance and HR", office: "223 Schwartz", email: "hll53@cornell.edu", phone: "607-255-7598", responsibilities: "Department finance, reporting, and human resources." },
+      { name: "Donna Miller", title: "Graduate Field Administrator and Undergraduate Coordinator", office: "223 Schwartz", email: "dm246@cornell.edu", phone: "607-254-2757", responsibilities: "Courses, scheduling, academic requirements, graduate matters, and student employment." },
+    ],
+  },
+  {
+    title: "Communications",
+    people: [
+      { name: "Youngsun Palmer", title: "Communications Manager", office: "225 Schwartz", email: "yp422@cornell.edu", phone: "607-254-2730", responsibilities: "Promotion of productions, events, classes, the website, social media, and graphic design." },
+      { name: "Beatrice Fenyes", title: "Communications Coordinator", office: "225 Schwartz", email: "bg472@cornell.edu", phone: "607-254-2702", responsibilities: "Press, production and event promotion, the website, and social media." },
+    ],
+  },
+  {
+    title: "Production and Facilities",
+    people: [
+      { name: "Chris Christensen", title: "IT Support", office: "224 Schwartz", email: "Schwartz-it@cornell.edu", phone: "607-254-2239", responsibilities: "Department networks, computers, and classroom technology." },
+      { name: "Andrew Deppen", title: "Production Manager", office: "122A Schwartz", email: "ald244@cornell.edu", phone: "607-254-2703", responsibilities: "Production, event, and special-event scheduling, including after-hours building use." },
+      { name: "Fritz Bernstein", title: "Technical Director", office: "121 Schwartz", email: "ajb76@cornell.edu", phone: "607-254-2704", responsibilities: "Set design and construction, the scene shop, theatres, and building questions." },
+      { name: "Randy Hendrickson", title: "Media Assistant", office: "SB11 Schwartz", email: "rlh259@cornell.edu", phone: "607-254-5258", responsibilities: "Film production." },
+      { name: "Alexa Alfonsi", title: "Production Stage Manager", office: "B23 Schwartz", email: "aa2627@cornell.edu", phone: "607-254-2794", responsibilities: "Development and management of PMA productions." },
+      { name: "Savannah Relos", title: "Assistant Technical Director", office: "127 Schwartz", email: "sr882@cornell.edu", phone: "607-254-2751", responsibilities: "Scenic construction and maintenance of the scene shop and performance spaces." },
+      { name: "Lisa Boquist", title: "Costume Shop Manager", office: "B10 Schwartz", email: "llb32@cornell.edu", phone: "607-592-9526", responsibilities: "Costume production, stock, student staff, and the costume component of PMA 1610." },
+      { name: "Tim Ostrander", title: "Props and Paint Coordinator", office: "128 Schwartz", email: "teo3@cornell.edu", phone: "607-254-8925", responsibilities: "Props for productions and classes, and support for PMA shows and events." },
+      { name: "Ted Romer", title: "Schwartz Facilities Coordinator", office: "221 Schwartz", email: "tar227@cornell.edu", phone: "607-254-5563", responsibilities: "Building questions, keys, and access." },
+    ],
+  },
+  {
+    title: "Cornell Cinema",
+    people: [
+      { name: "Molly Ryan", title: "Director of Cornell Cinema", office: "104 Willard Straight Hall", email: "mcr249@cornell.edu", phone: "607-255-3883" },
+      { name: "Aaron Rovitz", title: "Manager of Cornell Cinema", office: "104 Willard Straight Hall", email: "a.rovitz@cornell.edu", phone: "607-255-8252" },
+      { name: "Teresa Alvis", title: "Cornell Cinema Assistant", office: "104 Willard Straight Hall", email: "taa39@cornell.edu", phone: "607-255-3522" },
+      { name: "Tim White", title: "Head Projectionist at Cornell Cinema", office: "104 Willard Straight Hall", email: "tw586@cornell.edu", phone: "607-255-7971" },
+    ],
+  },
 ];
 
 function PersonCard({ rpta }: { rpta: RPTA }) {
@@ -295,6 +350,29 @@ function FacultyCard({ f }: { f: Faculty }) {
         </p>
       </div>
     </a>
+  );
+}
+
+function ContactCard({ contact }: { contact: Contact }) {
+  return (
+    <article style={{ borderTop: `1px solid ${RULE}`, paddingTop: 18 }}>
+      <h3 style={{ fontSize: 15, fontWeight: 600, lineHeight: "20px", color: ESPRESSO, margin: 0 }}>
+        {contact.name}
+      </h3>
+      <p style={{ fontSize: 11, lineHeight: "16px", letterSpacing: "0.02em", color: MUTED, margin: "4px 0 12px" }}>
+        {contact.title}
+      </p>
+      {contact.responsibilities && (
+        <p style={{ fontSize: 12, lineHeight: "18px", color: "#4c4c52", margin: "0 0 12px" }}>
+          {contact.responsibilities}
+        </p>
+      )}
+      <div style={{ display: "grid", gap: 3, fontSize: 11, lineHeight: "17px" }}>
+        {contact.office && <span style={{ color: MUTED }}>{contact.office}</span>}
+        {contact.email && <a href={`mailto:${contact.email}`} style={{ color: CARNELIAN, textDecoration: "none" }}>{contact.email}</a>}
+        {contact.phone && <a href={`tel:${contact.phone.replace(/[^0-9+]/g, "")}`} style={{ color: ESPRESSO, textDecoration: "none" }}>{contact.phone}</a>}
+      </div>
+    </article>
   );
 }
 
@@ -536,7 +614,7 @@ export default function DirectoryPage({ onHome, navProps }: { onHome: () => void
           ))}
         </div>
       </div>
-      {activeTab === 2 && (
+      {activeTab === 3 && (
         <div style={{ padding: mobile ? "30px 16px 64px" : "48px 80px 96px" }}>
           <div style={{
             display: "grid",
@@ -567,6 +645,38 @@ export default function DirectoryPage({ onHome, navProps }: { onHome: () => void
         </div>
       )}
       {activeTab === 1 && (
+        <div style={{ padding: mobile ? "34px 20px 72px" : "56px 80px 96px" }}>
+          <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+            {CONTACT_GROUPS.map((group, groupIndex) => (
+              <section key={group.title} style={{ marginTop: groupIndex === 0 ? 0 : (mobile ? 52 : 68) }}>
+                <Reveal y={14}>
+                  <h2 style={{
+                    fontFamily: "Saira Condensed, sans-serif",
+                    fontSize: mobile ? 25 : 31,
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.01em",
+                    color: ESPRESSO,
+                    margin: 0,
+                    lineHeight: mobile ? "28px" : "34px",
+                  }}>
+                    {group.title}
+                  </h2>
+                  <div style={{ height: 2, background: CARNELIAN, width: 44, marginTop: 13 }} />
+                </Reveal>
+                <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "repeat(3, minmax(0, 1fr))", gap: mobile ? "26px" : "34px 42px", marginTop: 27 }}>
+                  {group.people.map((contact, index) => (
+                    <Reveal key={contact.name} delay={(index % 3) * 50}>
+                      <ContactCard contact={contact} />
+                    </Reveal>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      )}
+      {activeTab === 2 && (
         <div style={{ padding: mobile ? "34px 20px 72px" : "56px 80px 96px" }}>
           <div style={{ maxWidth: 940, margin: "0 auto" }}>
             <Reveal y={16}>

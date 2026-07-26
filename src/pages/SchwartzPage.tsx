@@ -145,10 +145,11 @@ interface ChapterProps {
   aside?: AsideNote[];
   bg?: string;
   inlineImage?: { src: string; caption: string; position?: string };
+  afterParagraphs?: React.ReactNode;
   id?: string;
 }
 
-function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs = [], pullQuote, subsections = [], aside, bg = TAN, inlineImage, id }: ChapterProps) {
+function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs = [], pullQuote, subsections = [], aside, bg = TAN, inlineImage, afterParagraphs, id }: ChapterProps) {
   const isDark  = bg === DARK;
   const bodyClr = isDark ? "#b8b8c2" : ESPRESSO;
   const muteClr = isDark ? "#6b6b70" : MUTED;
@@ -198,6 +199,7 @@ function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs 
               </p>
             </div>
           )}
+          {afterParagraphs}
           {subsections.map(sub => (
             <Subsection
               key={sub.label}
@@ -931,8 +933,33 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
 
             `In January 2009, the department marked the building's twentieth anniversary. University coverage gathered Levitt and Feldshuh's reflections, recounted Herbert Gussman's founding gift, and recorded Levitt's assessment that the center had become a national model for apprenticeship training.`,
 
-            `In 2010, budget pressure brought the era to its close. The College of Arts and Sciences directed Theatre, Film and Dance to reduce its non-professorial budget; the department responded with a performance-and-media model that consolidated the three majors, reduced the resident-professional program, and ended the standalone dance major. David Feldshuh retired in 2011 after roughly twenty-five years as founding artistic director, and the restructured unit became the Department of Performing and Media Arts.`,
+            `As the budget reductions were announced, the latest Gourman Report rankings for liberal arts programs in the United States listed Cornell's Theatre program third and its Dance program first.`,
+
           ]}
+          afterParagraphs={
+            <>
+            <div style={{ margin: "42px 0 28px", padding: "32px 0", borderTop: "1px solid rgba(0,0,0,0.08)", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
+              <div style={{ display: "flex", justifyContent: "center", gap: "clamp(42px, 12vw, 150px)", flexWrap: "wrap" }}>
+                {[{ value: "3", label: "Theatre" }, { value: "1", label: "Dance" }].map(({ value, label }) => (
+                  <div key={label} style={{ width: 180, textAlign: "center" }}>
+                    <div style={{ width: 128, height: 128, borderRadius: "50%", background: ESPRESSO, color: PAPER, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Saira Condensed, sans-serif", fontSize: 51, fontWeight: 800, lineHeight: 1 }}>
+                      {value}
+                    </div>
+                    <p style={{ margin: 0, fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: MUTED }}>
+                      {label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ maxWidth: 680, margin: "28px auto 0", textAlign: "center", fontSize: 13, lineHeight: "21px", color: ESPRESSO_SOFT }}>
+                Cornell's Theatre and Dance programs received the highest rankings of any departments in the College of Arts and Sciences.
+              </p>
+            </div>
+            <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: "justify", margin: "0 0 18px" }}>
+              In 2010, budget pressure brought the era to its close. The College of Arts and Sciences directed Theatre, Film and Dance to reduce its non-professorial budget; the department responded with a performance-and-media model that consolidated the three majors, reduced the resident-professional program, and ended the standalone dance major. David Feldshuh retired in 2011 after roughly twenty-five years as founding artistic director, and the restructured unit became the Department of Performing and Media Arts.
+            </p>
+            </>
+          }
           subsections={[
             { label: "A legacy", title: "What the era built", body: "From the opening through the budget reductions, the producing operation presented more than a thousand public performances, trained generations of students in a hybrid professional model, and brought a repertoire spanning classical drama, American premieres, Tony Kushner, Anna Deavere Smith, and the Pulitzer-nominated Miss Evers' Boys to Cornell." },
           ]}
