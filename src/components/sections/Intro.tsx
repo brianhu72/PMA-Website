@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Phase = 'start' | 'line1' | 'line2' | 'hold' | 'exit';
 
@@ -6,27 +6,36 @@ interface IntroProps {
     onComplete: () => void;
 }
 
-const FADE_MS = 1400;
+const FADE_MS = 800;
 
 export default function Intro({ onComplete }: IntroProps) {
   const [phase, setPhase] = useState<Phase>('start');
+  const timers = useRef<number[]>([]);
+  const skipping = useRef(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase('line1'), 500);
-    const t2 = setTimeout(() => setPhase('line2'), 1500);
-    const t3 = setTimeout(() => setPhase('hold'), 3000);
-    const t4 = setTimeout(() => setPhase('exit'), 6000);
-    const t5 = setTimeout(() => onComplete(), 6000 + FADE_MS);
+    const schedule = (callback: () => void, delay: number) => {
+      const timer = window.setTimeout(callback, delay);
+      timers.current.push(timer);
+    };
+
+    schedule(() => setPhase('line1'), 500);
+    schedule(() => setPhase('line2'), 1500);
+    schedule(() => setPhase('hold'), 3000);
+    schedule(() => setPhase('exit'), 6000);
+    schedule(onComplete, 6000 + FADE_MS);
 
     return () => {
-      [t1, t2, t3, t4, t5].forEach(clearTimeout);
+      timers.current.forEach(window.clearTimeout);
     };
   }, []);
 
   const skip = () => {
-    if (phase === 'exit') return;
+    if (skipping.current || phase === 'exit') return;
+    skipping.current = true;
+    timers.current.forEach(window.clearTimeout);
     setPhase('exit');
-    setTimeout(onComplete, FADE_MS);
+    window.setTimeout(onComplete, FADE_MS);
   };
 
   const visible = (cond: boolean) => ({
@@ -47,7 +56,7 @@ export default function Intro({ onComplete }: IntroProps) {
         cursor: 'pointer',
         overflow: 'hidden',
         opacity: phase === 'exit' ? 0 : 1,
-        transition: `opacity ${FADE_MS}ms ease`,
+        transition: `opacity ${FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
       }}>
       <img
         src="/intro_dance.jpg"

@@ -24,9 +24,9 @@ function MobileLink({ label, onClick, indent = false }: { label: string; onClick
 }
 
 const TIME_PERIODS = [
-  { numeral: "I",   title: "Before the Center",  dates: "1880 – 1989",    key: "pre-schwartz" as const },
-  { numeral: "II",  title: "The Schwartz Years",  dates: "1988 – 2010",    key: "schwartz"     as const },
-  { numeral: "III", title: "Emergence of PMA", dates: "2010 – Present", key: "emergence"  as const },
+  { numeral: "I",   title: "Before the Center",  dates: "1880 – 1988",    key: "pre-schwartz" as const },
+  { numeral: "II",  title: "The Schwartz Years",  dates: "1988 – 2011",    key: "schwartz"     as const },
+  { numeral: "III", title: "Emergence of PMA", dates: "2011 – Present", key: "emergence"  as const },
 ];
 
 function PeriodItem({ p, onClick }: { p: (typeof TIME_PERIODS)[number]; onClick: () => void }) {
@@ -108,7 +108,7 @@ export default function Nav({
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0,
-      height: 60,
+      height: mobile ? 64 : 60,
       display: "flex", alignItems: "center",
       padding: mobile ? "0 18px" : "0 var(--gutter)",
       zIndex: 200,
@@ -264,11 +264,11 @@ export default function Nav({
       )}
       {mobile && menuOpen && (
         <div style={{
-          position: "fixed", top: 60, left: 0, right: 0,
+          position: "fixed", top: 64, left: 0, right: 0,
           background: "#0a0a0c",
           borderTop: "1px solid rgba(255,255,255,0.08)",
           boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
-          maxHeight: "calc(100vh - 60px)", overflowY: "auto",
+          maxHeight: "calc(100dvh - 64px)", overflowY: "auto",
         }}>
           <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", margin: 0, padding: "16px 24px 6px" }}>
             Time Periods

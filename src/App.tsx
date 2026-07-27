@@ -19,6 +19,9 @@ type Page = "home" | "pre-schwartz" | "schwartz" | "emergence" | "directory" | "
 
 export default function App() {
   const [introDone, setIntroDone] = useState(() => sessionStorage.getItem("pma-intro-seen") === "1");
+  const [fontsReady, setFontsReady] = useState(() =>
+    typeof document === "undefined" || document.fonts.check("800 66px 'Saira Condensed'")
+  );
   const [page, setPage] = useState<Page>("home");
   const [scrollToEras, setScrollToEras] = useState(false);
   const [atHero, setAtHero] = useState(true);
@@ -46,9 +49,19 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!introDone) {
-    return <Intro onComplete={() => { sessionStorage.setItem("pma-intro-seen", "1"); setIntroDone(true); }} />;
-  }
+  useEffect(() => {
+    if (fontsReady || typeof document === "undefined") return;
+    let mounted = true;
+
+    Promise.all([
+      document.fonts.load("800 66px 'Saira Condensed'"),
+      document.fonts.load("400 16px Inter"),
+    ]).finally(() => {
+      if (mounted) setFontsReady(true);
+    });
+
+    return () => { mounted = false; };
+  }, [fontsReady]);
 
   const navProps = {
     onHome:        () => setPage("home"),
@@ -96,40 +109,43 @@ export default function App() {
 
   return (
     <>
-      <Nav
-        {...navProps}
-        transparent={atHero}
-        light={!atHero}
-      />
-      <main>
-        <Hero onExplore={() => document.getElementById("eras")?.scrollIntoView({ behavior: "smooth" })} />
-        <div id="eras" />
-        {eras.map((era) => (
-          <EraSection
-            key={era.numeral}
-            era={era}
-            image={
-              era.numeral === "I" ? "/godot_front.png" :
-              era.numeral === "II" ? "/schwartzcenterlong.webp" :
-              era.numeral === "III" ? "/scans-sz/lgd13_01.jpg" :
-              undefined
-            }
-            imageCaption={
-              era.numeral === "I" ? "Christopher Reeve 1972" :
-              era.numeral === "II" ? "Schwartz Center" :
-              era.numeral === "III" ? "Locally Grown Dance, 2013" :
-              undefined
-            }
-            onClick={
-              era.numeral === "I" ? () => setPage("pre-schwartz") :
-              era.numeral === "II" ? () => setPage("schwartz") :
-              era.numeral === "III" ? () => setPage("emergence") :
-              undefined
-            }
-          />
-        ))}
-      </main>
-      <Footer />
+      <div style={{ opacity: fontsReady ? 1 : 0, transition: "opacity 260ms ease" }}>
+        <Nav
+          {...navProps}
+          transparent={atHero}
+          light={!atHero}
+        />
+        <main>
+          <Hero onExplore={() => document.getElementById("eras")?.scrollIntoView({ behavior: "smooth" })} />
+          <div id="eras" />
+          {eras.map((era) => (
+            <EraSection
+              key={era.numeral}
+              era={era}
+              image={
+                era.numeral === "I" ? "/godot_front.png" :
+                era.numeral === "II" ? "/schwartzcenterlong.webp" :
+                era.numeral === "III" ? "/scans-sz/lgd13_01.jpg" :
+                undefined
+              }
+              imageCaption={
+                era.numeral === "I" ? "Christopher Reeve 1972" :
+                era.numeral === "II" ? "Schwartz Center" :
+                era.numeral === "III" ? "Locally Grown Dance, 2013" :
+                undefined
+              }
+              onClick={
+                era.numeral === "I" ? () => setPage("pre-schwartz") :
+                era.numeral === "II" ? () => setPage("schwartz") :
+                era.numeral === "III" ? () => setPage("emergence") :
+                undefined
+              }
+            />
+          ))}
+        </main>
+        <Footer />
+      </div>
+      {!introDone && <Intro onComplete={() => { sessionStorage.setItem("pma-intro-seen", "1"); setIntroDone(true); }} />}
     </>
   );
 }

@@ -4,9 +4,12 @@ import Fireworks from "../ui/Fireworks";
 import { useIsMobile } from "../../lib/useIsMobile";
 
 const SLIDES: { src: string; position: string; label: string; fireworks?: boolean }[] = [
-  { src: "/hero_jero-upscaled.png", position: "center center", label: "Before the Center" },
-  { src: Upscaled_Schwartz,   position: "left bottom",   label: "The Schwartz Years", fireworks: true },
-  { src: "/scans-sz/carnage_01.jpg", position: "center center", label: "Emergence of PMA" },
+  { src: "/hero_jero-upscaled.png",     position: "center center", label: "Before the Center" },
+  { src: "/hero_filmset.jpg",           position: "center center", label: "Media Arts" },
+  { src: Upscaled_Schwartz,             position: "left bottom",   label: "The Schwartz Years", fireworks: true },
+  { src: "/scans-sz/arturoui_03.jpg",   position: "center center", label: "The Resistible Rise of Arturo Ui" },
+  { src: "/scans-sz/cradle_03.jpg",     position: "center center", label: "The Cradle Will Rock" },
+  { src: "/scans/springdance87_08.jpg", position: "center center", label: "Spring Dance" },
 ];
 
 const HOLD_MS = 5500;   // time each slide stays before advancing
@@ -40,8 +43,8 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
     <section
       style={{
         position: "relative",
-        height: "calc(100vh / var(--pz, 1))",
-        minHeight: mobile ? 0 : 851,
+        height: mobile ? "100svh" : "calc(100vh / var(--pz, 1))",
+        minHeight: mobile ? 580 : 851,
         overflow: "hidden",
         backgroundColor: "#141418",
       }}
@@ -85,7 +88,7 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
           position: "absolute",
           left: mobile ? 20 : 56,
           right: mobile ? 20 : undefined,
-          top: mobile ? 100 : 140,
+          top: mobile ? "clamp(104px, 17svh, 148px)" : 140,
           zIndex: 1,
         }}
       >
@@ -95,7 +98,7 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
             fontWeight: 400,
             letterSpacing: "2px",
             color: "#e02929",
-            margin: "0 0 26px",
+            margin: mobile ? "0 0 20px" : "0 0 26px",
             textShadow: "0px 4px 4px rgba(0,0,0,0.25)",
             whiteSpace: "nowrap",
           }}
@@ -126,13 +129,13 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
           onMouseEnter={() => setBtnHovered(true)}
           onMouseLeave={() => setBtnHovered(false)}
           style={{
-            marginTop: 40,
+            marginTop: mobile ? 32 : 40,
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: btnHovered ? "#9e1717" : "#b31b1b",
             borderRadius: 3,
-            padding: "14px 28px",
+            padding: mobile ? "15px 24px" : "14px 28px",
             overflow: "hidden",
             cursor: "pointer",
             transform: btnHovered ? "translateY(-2px)" : "translateY(0)",
@@ -153,7 +156,7 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
           </span>
         </div>
       </div>
-      <div style={{ position: "absolute", left: mobile ? 20 : 58, bottom: mobile ? 32 : 48, zIndex: 1, display: "flex", gap: 10 }}>
+      <div style={{ position: "absolute", left: mobile ? 20 : 58, bottom: mobile ? "max(28px, env(safe-area-inset-bottom))" : 48, zIndex: 1, display: "flex", gap: 10 }}>
         {SLIDES.map((s, i) => (
           <button
             key={i}

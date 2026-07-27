@@ -4,6 +4,7 @@ import SharedNav from "../components/layout/Nav";
 import ChapterRail from "../components/ui/ChapterRail";
 import { useIsMobile } from "../lib/useIsMobile";
 import Cornell_Logo   from "../assets/Cornell_Logo.png";
+import { formatWorks } from "../lib/formatWorks";
 
 const ESPRESSO      = "#1b1b1e";
 const ESPRESSO_SOFT = "#4c4c52";
@@ -51,7 +52,7 @@ const tenthAnniversarySlides = [
 ];
 
 const twoThousandsSlides = [
-  ...scan("merchant", 4, "The Merchant of Venice, dir. Robert Kalfin, 2004–05."),
+  ...scan("merchant", 4, "The Merchant of Venice, dir. David Feldshuh, 2004–05."),
 ];
 
 
@@ -86,12 +87,13 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 interface AsideNote { label: string; text: string; image?: string }
 
 function NotesGrid({ notes, isDark = false }: { notes: AsideNote[]; isDark?: boolean }) {
+  const mobile = useIsMobile();
   const cols = notes.length === 4 ? 2 : Math.min(Math.max(notes.length, 2), 3);
   return (
     <div style={{
       display: "grid",
-      gridTemplateColumns: `repeat(${cols}, 1fr)`,
-      gap: "30px 44px",
+      gridTemplateColumns: mobile ? "1fr" : `repeat(${cols}, 1fr)`,
+      gap: mobile ? 24 : "30px 44px",
       marginTop: 44,
       paddingTop: 26,
       borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
@@ -121,13 +123,14 @@ function NotesGrid({ notes, isDark = false }: { notes: AsideNote[]; isDark?: boo
 interface Sub { label: string; labelColor?: string; title: string; body: string; bodyWidth?: number }
 
 function Subsection({ title, body, bodyWidth = 900 }: Sub) {
+  const mobile = useIsMobile();
   return (
     <div style={{ marginTop: 46, paddingTop: 28, borderTop: `1px solid rgba(0,0,0,0.08)` }}>
       <p style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: "-0.15px", lineHeight: "24px", color: ESPRESSO, marginBottom: 10 }}>
         {title}
       </p>
-      <p style={{ fontSize: 13, lineHeight: "20px", letterSpacing: "-0.027px", color: ESPRESSO_SOFT, textAlign: "justify", maxWidth: bodyWidth }}>
-        {body}
+      <p style={{ fontSize: 13, lineHeight: "21px", letterSpacing: "-0.027px", color: ESPRESSO_SOFT, textAlign: mobile ? "left" : "justify", maxWidth: bodyWidth }}>
+        {formatWorks(body)}
       </p>
     </div>
   );
@@ -150,18 +153,19 @@ interface ChapterProps {
 }
 
 function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs = [], pullQuote, subsections = [], aside, bg = TAN, inlineImage, afterParagraphs, id }: ChapterProps) {
+  const mobile  = useIsMobile();
   const isDark  = bg === DARK;
   const bodyClr = isDark ? "#b8b8c2" : ESPRESSO;
   const muteClr = isDark ? "#6b6b70" : MUTED;
   const ruleClr = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
 
   return (
-    <section id={id} style={{ background: bg, paddingTop: 120, paddingBottom: 80, borderTop: `1px solid ${ruleClr}` }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section id={id} style={{ background: bg, paddingTop: mobile ? 72 : 120, paddingBottom: mobile ? 60 : 80, borderTop: `1px solid ${ruleClr}` }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
           <p style={{ fontSize: 9, fontWeight: 400, letterSpacing: "0.84px", textTransform: "uppercase", color: muteClr, lineHeight: "16px", marginBottom: 15 }}>
             {chapterLabel}
           </p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, letterSpacing: "-0.3px", lineHeight: "32px", color: isDark ? "#fff" : ESPRESSO, marginBottom: 15 }}>
+          <h2 style={{ fontFamily: SERIF, fontSize: mobile ? 27 : 30, fontWeight: 600, letterSpacing: "-0.3px", lineHeight: mobile ? "30px" : "32px", color: isDark ? "#fff" : ESPRESSO, marginBottom: 15 }}>
             {title}
           </h2>
           <p style={{ fontSize: 10, letterSpacing: "0.13px", lineHeight: "17px", color: muteClr, marginBottom: inlineImage ? 36 : 32 }}>
@@ -180,13 +184,13 @@ function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs 
             </figure>
           )}
           {leadParagraph && (
-            <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: isDark ? "#fff" : ESPRESSO, textAlign: "justify", marginBottom: 18 }}>
-              {leadParagraph}
+            <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: isDark ? "#fff" : ESPRESSO, textAlign: mobile ? "left" : "justify", marginBottom: 18 }}>
+              {formatWorks(leadParagraph)}
             </p>
           )}
           {paragraphs.map((p, i) => (
-            <p key={i} style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: bodyClr, textAlign: "justify", marginBottom: 18 }}>
-              {p}
+            <p key={i} style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: bodyClr, textAlign: mobile ? "left" : "justify", marginBottom: 18 }}>
+              {formatWorks(p)}
             </p>
           ))}
           {pullQuote && (
@@ -253,6 +257,7 @@ function Hero() {
 
 function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates: string; onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
+  const mobile = useIsMobile();
   return (
     <button
       onClick={onClick}
@@ -260,11 +265,11 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
       onMouseLeave={() => setHovered(false)}
       style={{
         display: "grid",
-        gridTemplateColumns: "42px 1fr auto",
+        gridTemplateColumns: mobile ? "30px 1fr" : "42px 1fr auto",
         alignItems: "baseline",
-        gap: 22,
+        gap: mobile ? 10 : 22,
         width: "100%",
-        padding: "17px 14px 17px 6px",
+        padding: mobile ? "16px 4px" : "17px 14px 17px 6px",
         textAlign: "left",
         background: hovered ? "rgba(0,0,0,0.025)" : "transparent",
         border: "none",
@@ -293,7 +298,7 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
           transition: "opacity 0.18s ease, transform 0.18s ease",
         }}>→</span>
       </span>
-      <span style={{ fontSize: 11, color: MUTED, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{dates}</span>
+      {!mobile && <span style={{ fontSize: 11, color: MUTED, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{dates}</span>}
     </button>
   );
 }
@@ -313,6 +318,7 @@ const CHAPTERS = [
 ];
 
 function CuratorIntro() {
+  const mobile = useIsMobile();
   const toc = CHAPTERS;
 
   const scrollTo = (id: string) => {
@@ -322,8 +328,8 @@ function CuratorIntro() {
   };
 
   return (
-    <section style={{ background: PAPER, paddingTop: 92, paddingBottom: 64 }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section style={{ background: PAPER, paddingTop: mobile ? 64 : 92, paddingBottom: mobile ? 52 : 64 }}>
+        <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
           <p style={{ fontSize: 20, lineHeight: "31px", letterSpacing: "-0.16px", color: ESPRESSO, marginBottom: 20, maxWidth: 720 }}>
             This section follows the first two decades in the Center for Theatre Arts, from its opening in 1989 to the budget reductions of 2010.
           </p>
@@ -380,19 +386,20 @@ function NavArrow({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void 
 function GallerySlideshow({ galleryLabel, title, description, slides, bg = PAPER }: {
   galleryLabel: string; title: string; description: string; slides: Slide[]; bg?: string;
 }) {
+  const mobile = useIsMobile();
   const [idx, setIdx] = useState(0);
   const count = slides.length;
   const current = slides[idx];
 
   return (
-    <section style={{ background: bg, paddingTop: 80, paddingBottom: 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section style={{ background: bg, paddingTop: mobile ? 60 : 80, paddingBottom: mobile ? 60 : 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
         <p style={{ fontSize: 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, lineHeight: "15px", marginBottom: 16 }}>{galleryLabel}</p>
         <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, letterSpacing: "-0.3px", color: ESPRESSO, marginBottom: 16 }}>{title}</h2>
         <p style={{ fontSize: 11, lineHeight: "17px", color: ESPRESSO_SOFT, marginBottom: 40, maxWidth: 780 }}>{description}</p>
         <div
           onClick={() => setIdx(i => (i + 1) % count)}
-          style={{ height: 520, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          style={{ height: mobile ? 310 : 520, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
         >
           {current.src ? (
             <img
@@ -409,7 +416,7 @@ function GallerySlideshow({ galleryLabel, title, description, slides, bg = PAPER
             <span style={{ fontFamily: SERIF, fontSize: 11, color: MUTED, fontStyle: "italic" }}>Archival photograph</span>
           )}
         </div>
-        <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid rgba(0,0,0,0.08)", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 32 }}>
+        <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid rgba(0,0,0,0.08)", display: "flex", flexDirection: mobile ? "column" : "row", justifyContent: "space-between", alignItems: mobile ? "flex-start" : "baseline", gap: mobile ? 12 : 32 }}>
           <p style={{ fontFamily: SERIF, fontSize: 12.5, lineHeight: "19px", color: ESPRESSO_SOFT, fontStyle: "italic", margin: 0 }}>
             {current.caption}
           </p>
@@ -436,6 +443,7 @@ function GallerySlideshow({ galleryLabel, title, description, slides, bg = PAPER
 
 
 function ChapterIIISection() {
+  const mobile = useIsMobile();
   const BT: React.CSSProperties = { fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: "justify", marginBottom: 18 };
   const SH: React.CSSProperties = { fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: "-0.15px", lineHeight: "24px", color: ESPRESSO, marginBottom: 10 };
 
@@ -447,7 +455,7 @@ function ChapterIIISection() {
 
   return (
     <section id="chapter-iii" style={{ background: TAN, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "120px 0 80px" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto", padding: mobile ? "72px 0 60px" : "120px 0 80px" }}>
             <p style={{ fontSize: 9, fontWeight: 400, letterSpacing: "0.84px", textTransform: "uppercase", color: MUTED, lineHeight: "16px", marginBottom: 15 }}>
               Chapter III
             </p>
@@ -489,8 +497,8 @@ function ChapterIIISection() {
               <p style={BT}>
                 {`The production and design faculty were equally constant: Daniel C. Hall (production ` +
                 `supervisor and technical director), Richard Archer (technical director), Judith Johnson ` +
-                `(resident costume designer), Chuck Hatcher (resident sound designer), Pamela Guion and ` +
-                `later Pamela Lillard in production stage management, and Alison Van Dyke (speech and ` +
+                `(resident costume designer), Chuck Hatcher (resident sound designer), Pamela Lillard, née ` +
+                `Guion, in production stage management, and Alison Van Dyke (speech and ` +
                 `acting, and director of undergraduate studies). The dance faculty held steady around ` +
                 `Joyce Morgenroth as program coordinator, with Jim Self, Jumay Chu, Janice Kovar, June ` +
                 `Finch, Peter Saul, and the composer and accompanist Allen Fogelsanger; film rested ` +
@@ -529,20 +537,13 @@ function ChapterIIISection() {
                 `Shakespeare Festivals.`}
               </p>
               <p style={BT}>
-                {`The inaugural-season company documented in the 1989-90 playbills included Tom Spivey ` +
-                `(the title role in Marat/Sade), Randy Braunberger, Sheree Galpert, Chiffonye Cobb, and ` +
-                `John Beumler. By the tenth-anniversary season of 1998-99 the resident company had turned ` +
-                `over entirely, to Kevin Connell, Daryll Heysham, Steve Brady, Dennis Fox, Joyce Lee, and ` +
-                `Nancy Lipschutz.`}
-              </p>
-              <p style={BT}>
                 {`In the later 1990s, the department formalized a mechanism for drawing on its own ` +
                 `graduates. Through a guest-artist fund created by Harold Bank and the Class of 1965, ` +
                 `the department began bringing alumni back to work beside current students. ` +
                 `Feldshuh's program notes record the return of set designer Sarah Lambert '85 (by then ` +
                 `known for Gross Indecency: The Three Trials of Oscar Wilde) and directors Will ` +
                 `Pomerantz '84 and Beth Milles '88, the last of whom, after directing Mad Forest in 1994, ` +
-                `returned repeatedly in the 2000s to stage The Miser, Inherit the Wind, and other productions.`}
+                `returned repeatedly in the 2000s to stage The Miser, Inherit the Wind, and would eventually join the staff as a professor.`}
               </p>
               <p style={BT}>
                 {`The pattern of guest engagement widened in the 2000s to include nationally known ` +
@@ -678,7 +679,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
             `in it before the dedication.`,
 
             `The first public event on the new proscenium stage was Dance Concert '89, presented ` +
-            `March 9 to 11, 1989, several weeks before the formal dedication. David Feldshuh served as artistic director from before the building was completed until his retirement in 2011. Professor Bruce Levitt reported that by the tenth-anniversary season of 1998-99, the number of theatre majors had tripled and course enrollments had doubled.`,
+            `March 9 to 11, 1989, several weeks before the formal dedication. David Feldshuh served as artistic director from before the building was completed until he stepped down from that role in 2011, while remaining a professor in the department. Professor Bruce Levitt reported that by the tenth-anniversary season of 1998-99, the number of theatre majors had tripled and course enrollments had doubled.`,
           ]}
         />
         </Reveal>
@@ -734,7 +735,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
           title="Repertoire and Range"
           dates="1988 – 1999"
           leadParagraph={
-            `Across two decades in the building, the seasons balanced classical repertory, twentieth-century drama, politically engaged work, musicals, and new plays. Shakespeare was a constant, at least a dozen productions over the period, beside the comic repertory of Behn, Congreve, Wilde, Moliere, Sheridan, and Feydeau, and the recurring moderns: Williams, Miller, Chekhov, Mamet, Brecht, and Shaw.`
+            `Across two decades in the building, the seasons balanced classical repertory, twentieth-century drama, politically engaged work, musicals, and new plays. Shakespeare was a constant, with at least a dozen productions over the period, beside the comic repertory of Behn, Congreve, Wilde, Moliére, Sheridan, and Feydeau, and the recurring moderns: Williams, Miller, Chekhov, Mamet, Brecht, and Shaw.`
           }
           paragraphs={[
             `The era was equally marked by contemporary and politically charged drama. The ` +
@@ -779,7 +780,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
           dates="1988 – 2000"
           leadParagraph={
             `The building's design treated dance and film as full partners with theatre, ` +
-            `and both developed substantially over the period. The dance faculty presented ` +
+            `and both programs developed substantially over the period. The dance faculty presented ` +
             `an annual concert of new faculty and student choreography, and the playbills ` +
             `record regular concerts on the proscenium stage from ` +
             `Dance '89 through Dance Concert '09, several built around guest artists-in-residence ` +
@@ -880,12 +881,11 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
           title="The Schwartz Naming and the New Century"
           dates="2001"
           leadParagraph={
-            `In 2001 the building acquired its lasting name: on October 19 it was dedicated as the Sheila W. and Richard J. Schwartz Center for the Performing Arts.`
+            `On October 19, 2001, the building acquired its lasting name. It was dedicated as the Sheila W. and Richard J. Schwartz Center for the Performing Arts.`
           }
           paragraphs={[
-            `The naming recognized a gift from the longtime Cornell benefactors. Richard J. ` +
-            `Schwartz, Cornell Class of 1960 and a member of the Board of Trustees since 1989, ` +
-            `was at the time chairman of the New York State Council on the Arts. The ceremony, ` +
+            `The naming recognized a gift from longtime Cornell benefactors Richard J. Schwartz, '60. ` +
+            `Schwartz, a member of the Board of Trustees since 1989, was at the time chairman of the New York State Council on the Arts. The ceremony, ` +
             `held in the building's proscenium house (by then named the Kiplinger Theatre for ` +
             `Austin Kiplinger '39), featured a student dance performance, a student film clip, ` +
             `and a video scene from the department's sold-out spring 2001 production of Amadeus.`,
@@ -915,7 +915,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
           paragraphs={[
             `Feldshuh continued to direct major works, including The Matchmaker, The Resistible ` +
             `Rise of Arturo Ui, The Merchant of Venice, and Bernstein's Mass, and to create new ` +
-            `adaptations for the campus. In 2003 he wrote and directed an Antigone for Cornell's ` +
+            `adaptations for the campus. In 2003, he wrote and directed an Antigone for Cornell's ` +
             `New Student Reading Project with an original score; the production was filmed and ` +
             `broadcast on regional public television the following year. Levitt directed Shakespeare ` +
             `and large ensemble pieces (Hamlet, Grapes of Wrath, The Cocoanuts, The Bourgeois ` +
@@ -940,7 +940,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
             <>
             <div style={{ margin: "42px 0 28px", padding: "32px 0", borderTop: "1px solid rgba(0,0,0,0.08)", borderBottom: "1px solid rgba(0,0,0,0.08)" }}>
               <div style={{ display: "flex", justifyContent: "center", gap: "clamp(42px, 12vw, 150px)", flexWrap: "wrap" }}>
-                {[{ value: "3", label: "Theatre" }, { value: "1", label: "Dance" }].map(({ value, label }) => (
+                {[{ value: "3rd", label: "Theatre" }, { value: "1st", label: "Dance" }].map(({ value, label }) => (
                   <div key={label} style={{ width: 180, textAlign: "center" }}>
                     <div style={{ width: 128, height: 128, borderRadius: "50%", background: ESPRESSO, color: PAPER, margin: "0 auto 16px", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Saira Condensed, sans-serif", fontSize: 51, fontWeight: 800, lineHeight: 1 }}>
                       {value}
@@ -956,7 +956,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
               </p>
             </div>
             <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: "justify", margin: "0 0 18px" }}>
-              In 2010, budget pressure brought the era to its close. The College of Arts and Sciences directed Theatre, Film and Dance to reduce its non-professorial budget; the department responded with a performance-and-media model that consolidated the three majors, reduced the resident-professional program, and ended the standalone dance major. David Feldshuh retired in 2011 after roughly twenty-five years as founding artistic director, and the restructured unit became the Department of Performing and Media Arts.
+              In 2010, budget pressure brought the era to its close. The College of Arts and Sciences directed Theatre, Film and Dance to reduce its non-professorial budget; the department responded with a performance-and-media model that consolidated the three majors, reduced the resident-professional program, and ended the standalone dance major. David Feldshuh stepped down as artistic director in 2011 after roughly twenty-five years in the role and remained a professor in the department. The restructured unit became the Department of Performing and Media Arts.
             </p>
             </>
           }
@@ -970,7 +970,7 @@ export default function SchwartzPage({ onHome, navProps }: { onHome: () => void;
         <GallerySlideshow
           galleryLabel="Gallery 04 · Slideshow"
           title="Production in the 2000s"
-          description="The guest-director seasons of the new century, here Robert Kalfin's Merchant of Venice, 2004–05."
+          description="The guest-director seasons of the new century, here David Feldshuh's Merchant of Venice, 2004–05."
           slides={twoThousandsSlides}
         />
         </Reveal>

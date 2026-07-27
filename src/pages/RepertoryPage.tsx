@@ -66,6 +66,16 @@ const PHOTOS: Record<string, PhotoSet> = {
   "2012–13|God of Carnage":            { srcs: seq("scans-sz", "carnage", 2) },
   "2012–13|Mother of Exiles: Madre de Migrantes": { srcs: seq("scans-sz", "mother", 2) },
   "2012–13|Locally Grown Dance":       { srcs: seq("scans-sz", "lgd13", 3) },
+  // Mid-2000s seasons
+  "2003–04|The Grapes of Wrath":       { srcs: seq("scans-sz", "grapes", 13), credit: "Photographs by Thomas Hoebbel" },
+  "2004–05|A Raisin in the Sun":       { srcs: seq("scans-sz", "raisin", 2), credit: "With guest artist Yolanda King as Mama; dir. Regge Life" },
+  "2004–05|5 Women Wearing the Same Dress": { srcs: seq("scans-sz", "fivewomen", 2) },
+  "2004–05|Jacques Brel":              { srcs: seq("scans-sz", "jacques", 3) },
+  "2005–06|Comic Potential":           { srcs: seq("scans-sz", "comicpotential", 1) },
+  "2005–06|The Cradle Will Rock":      { srcs: seq("scans-sz", "cradle", 3) },
+  "2005–06|Dance Concert":             { srcs: seq("scans-sz", "dance06", 1) },
+  "2005–06|Vincent in Brixton":        { srcs: seq("scans-sz", "vincent", 1) },
+  "2006–07|Dance Concert":             { srcs: seq("scans-sz", "dance07", 1) },
 };
 
 const photosFor = (season: string, title: string): PhotoSet | undefined => PHOTOS[`${season}|${title}`];
@@ -744,7 +754,7 @@ function Lightbox({ box, onClose }: { box: LightboxState; onClose: () => void })
     >
       <div
         onClick={e => e.stopPropagation()}
-        style={{ maxWidth: 1080, width: "100%", margin: "0 auto", display: "flex", alignItems: "baseline", gap: 16, flexShrink: 0 }}
+        style={{ maxWidth: 1080, width: "100%", margin: "0 auto", display: "flex", alignItems: "baseline", gap: mobile ? 8 : 16, flexWrap: mobile ? "wrap" : "nowrap", flexShrink: 0 }}
       >
         <p style={{ fontFamily: "Saira Condensed, sans-serif", fontSize: 22, fontWeight: 700, letterSpacing: "0.2px", color: "#ffffff", margin: 0 }}>
           {box.title}
@@ -860,6 +870,7 @@ function FilterTab({ label, active, onClick }: {
 
 function ChronologyRow({ prod, season, last, onOpen }: { prod: Production; season: string; last: boolean; onOpen: (box: LightboxState) => void }) {
   const [hovered, setHovered] = useState(false);
+  const mobile = useIsMobile();
   const photos = photosFor(season, prod.title);
 
   return (
@@ -868,10 +879,11 @@ function ChronologyRow({ prod, season, last, onOpen }: { prod: Production; seaso
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: "grid",
+        display: mobile ? "flex" : "grid",
+        flexDirection: mobile ? "column" : undefined,
         gridTemplateColumns: "1fr auto auto",
-        gap: "0 24px",
-        alignItems: "baseline",
+        gap: mobile ? 6 : "0 24px",
+        alignItems: mobile ? "flex-start" : "baseline",
         padding: "12px 0",
         borderBottom: !last ? `1px solid rgba(0,0,0,0.08)` : "none",
         cursor: photos ? "pointer" : "default",

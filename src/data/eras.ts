@@ -3,12 +3,12 @@ import type { Era } from "../types";
 export const eras: Era[] = [
   {
     numeral: "I",
-    label: "Section I · 1880–1989",
+    label: "Section I · 1880–1988",
     title: "Before the Center",
     description:
-      "Before the department had a home of its own, building a theatre culture at Cornell from scratch.",
+      "Before the department had a home of its own, Cornellians built a theatre culture from scratch.",
     startYear: 1880,
-    endYear: 1989,
+    endYear: 1988,
     productions: [
       { year: 1978, title: "House of Bernarda Alba", director: "Not Listed" },
       { year: 1978, title: "Vietnam Revisited", director: "Not Listed" },
@@ -73,21 +73,21 @@ export const eras: Era[] = [
   },
   {
     numeral: "II",
-    label: "Section II · 1988–2010",
+    label: "Section II · 1988–2011",
     title: "The Schwartz Years",
     description:
-      "An era of wide-ranging work across theatre, dance, and film.",
+      "An era of wide-ranging work across theatre, film, and dance.",
     startYear: 1988,
-    endYear: 2010,
+    endYear: 2011,
     productions: [{ year: 1985, title: "Darkness at Noon", director: "Stephen Cole" }]
   },
   {
     numeral: "III",
-    label: "Section III · 2010–Present",
+    label: "Section III · 2011–Present",
     title: "Emergence of PMA",
     description:
-      "After the cuts, the department reimagined at Cornell, the emergence of Performing & Media Arts.",
-    startYear: 2010,
+      "After university-wide budget cuts, the Department of Theatre, Film, and Dance is reimagined.",
+    startYear: 2011,
     endYear: null,
     productions: [{ year: 1985, title: "Darkness at Noon", director: "Stephen Cole" }]
   },

@@ -4,6 +4,7 @@ import SharedNav from "../components/layout/Nav";
 import ChapterRail from "../components/ui/ChapterRail";
 import { useIsMobile } from "../lib/useIsMobile";
 import Cornell_Logo from "../assets/Cornell_Logo.png";
+import { formatWorks } from "../lib/formatWorks";
 
 const ESPRESSO      = "#1b1b1e";
 const ESPRESSO_SOFT = "#4c4c52";
@@ -47,12 +48,13 @@ interface GridImage { src?: string; caption: string }
 interface AsideNote { label: string; text: string }
 
 function NotesGrid({ notes }: { notes: AsideNote[] }) {
+  const mobile = useIsMobile();
   const cols = notes.length === 4 ? 2 : Math.min(Math.max(notes.length, 2), 3);
   return (
     <div style={{
       display: "grid",
-      gridTemplateColumns: `repeat(${cols}, 1fr)`,
-      gap: "30px 44px",
+      gridTemplateColumns: mobile ? "1fr" : `repeat(${cols}, 1fr)`,
+      gap: mobile ? 24 : "30px 44px",
       marginTop: 44,
       paddingTop: 26,
       borderTop: "1px solid rgba(0,0,0,0.08)",
@@ -75,13 +77,14 @@ function NotesGrid({ notes }: { notes: AsideNote[] }) {
 interface Sub { label: string; title: string; body: string }
 
 function Subsection({ title, body }: Sub) {
+  const mobile = useIsMobile();
   return (
     <div style={{ marginTop: 46, paddingTop: 28, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
       <p style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: "-0.15px", lineHeight: "24px", color: ESPRESSO, marginBottom: 10 }}>
         {title}
       </p>
-      <p style={{ fontSize: 13, lineHeight: "20px", letterSpacing: "-0.027px", color: ESPRESSO_SOFT, textAlign: "justify", maxWidth: 900 }}>
-        {body}
+      <p style={{ fontSize: 13, lineHeight: "21px", letterSpacing: "-0.027px", color: ESPRESSO_SOFT, textAlign: mobile ? "left" : "justify", maxWidth: 900 }}>
+        {formatWorks(body)}
       </p>
     </div>
   );
@@ -103,30 +106,31 @@ interface ChapterProps {
 }
 
 function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs = [], pullQuote, subsections = [], aside, inlineImages, bg = TAN, id }: ChapterProps) {
+  const mobile = useIsMobile();
   return (
-    <section id={id} style={{ background: bg, paddingTop: 120, paddingBottom: 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section id={id} style={{ background: bg, paddingTop: mobile ? 72 : 120, paddingBottom: mobile ? 60 : 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
         <p style={{ fontSize: 9, fontWeight: 400, letterSpacing: "0.84px", textTransform: "uppercase", color: MUTED, lineHeight: "16px", marginBottom: 15 }}>
           {chapterLabel}
         </p>
-        <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, letterSpacing: "-0.3px", lineHeight: "32px", color: ESPRESSO, marginBottom: 15 }}>
+        <h2 style={{ fontFamily: SERIF, fontSize: mobile ? 27 : 30, fontWeight: 600, letterSpacing: "-0.3px", lineHeight: mobile ? "30px" : "32px", color: ESPRESSO, marginBottom: 15 }}>
           {title}
         </h2>
         <p style={{ fontSize: 10, letterSpacing: "0.13px", lineHeight: "17px", color: MUTED, marginBottom: 32 }}>
           {dates}
         </p>
         {leadParagraph && (
-          <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: "justify", marginBottom: 18 }}>
-            {leadParagraph}
+          <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: mobile ? "left" : "justify", marginBottom: 18 }}>
+            {formatWorks(leadParagraph)}
           </p>
         )}
         {paragraphs.map((p, i) => (
-          <p key={i} style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: "justify", marginBottom: 18 }}>
-            {p}
+          <p key={i} style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: ESPRESSO, textAlign: mobile ? "left" : "justify", marginBottom: 18 }}>
+            {formatWorks(p)}
           </p>
         ))}
         {inlineImages && inlineImages.length > 0 && (
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${inlineImages.length <= 2 ? inlineImages.length : 3}, 1fr)`, gap: 12, marginTop: 34, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : `repeat(${inlineImages.length <= 2 ? inlineImages.length : 3}, 1fr)`, gap: 12, marginTop: 34, marginBottom: 20 }}>
             {inlineImages.map((img, i) => (
               <figure key={i} style={{ margin: 0, position: "relative", aspectRatio: "4/3", borderRadius: 2, overflow: "hidden", background: "rgba(0,0,0,0.05)" }}>
                 {img.src && <img src={img.src} alt={img.caption} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />}
@@ -194,6 +198,7 @@ function Hero() {
 
 function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates: string; onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
+  const mobile = useIsMobile();
   return (
     <button
       onClick={onClick}
@@ -201,11 +206,11 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
       onMouseLeave={() => setHovered(false)}
       style={{
         display: "grid",
-        gridTemplateColumns: "42px 1fr auto",
+        gridTemplateColumns: mobile ? "30px 1fr" : "42px 1fr auto",
         alignItems: "baseline",
-        gap: 22,
+        gap: mobile ? 10 : 22,
         width: "100%",
-        padding: "17px 14px 17px 6px",
+        padding: mobile ? "16px 4px" : "17px 14px 17px 6px",
         textAlign: "left",
         background: hovered ? "rgba(0,0,0,0.025)" : "transparent",
         border: "none",
@@ -234,7 +239,7 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
           transition: "opacity 0.18s ease, transform 0.18s ease",
         }}>→</span>
       </span>
-      <span style={{ fontSize: 11, color: MUTED, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{dates}</span>
+      {!mobile && <span style={{ fontSize: 11, color: MUTED, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{dates}</span>}
     </button>
   );
 }
@@ -250,6 +255,7 @@ const CHAPTERS = [
 ];
 
 function CuratorIntro() {
+  const mobile = useIsMobile();
   const toc = CHAPTERS;
 
   const scrollTo = (id: string) => {
@@ -259,8 +265,8 @@ function CuratorIntro() {
   };
 
   return (
-    <section style={{ background: PAPER, paddingTop: 92, paddingBottom: 64 }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section style={{ background: PAPER, paddingTop: mobile ? 64 : 92, paddingBottom: mobile ? 52 : 64 }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
         <p style={{ fontSize: 20, lineHeight: "31px", letterSpacing: "-0.16px", color: ESPRESSO, marginBottom: 20, maxWidth: 720 }}>
           This section follows the department after the 2010 budget reductions, including the 2012 transition from Theatre, Film and Dance to Performing and Media Arts.
         </p>
@@ -293,12 +299,12 @@ function Closing() {
   const mobile = useIsMobile();
   return (
     <>
-      <section style={{ background: "#141417", paddingTop: 140, paddingBottom: 80, textAlign: "center", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "#141417", paddingTop: mobile ? 88 : 140, paddingBottom: mobile ? 60 : 80, textAlign: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ width: 48, height: 2, background: "#2c2c34", margin: "0 auto 28px" }} />
         <p style={{
-          fontSize: 30,
+          fontSize: mobile ? 25 : 30,
           fontWeight: 500,
-          lineHeight: "42px",
+          lineHeight: mobile ? "34px" : "42px",
           letterSpacing: "-0.6px",
           color: "#eef0f2",
           margin: "0 auto 56px",
@@ -391,13 +397,13 @@ export default function EmergencePage({ onHome, navProps }: { onHome: () => void
           dates="2009 – 2013"
           leadParagraph="The next phase of the department's history began with a budget cut in 2010."
           paragraphs={[
-            "In early February 2010, the Cornell Chronicle reported that the deans of the College of Arts and Sciences had asked the Department of Theatre, Film and Dance to cut its non-professorial budget by one to two million dollars annually within two years. The deans identified the department's non-professorial spending as high relative to its professorial budget and asked it to propose a plan.",
+            "In early February 2010, The Cornell Chronicle reported that the deans of the College of Arts and Sciences had asked the Department of Theatre, Film and Dance to cut its non-professorial budget by one to two million dollars annually within two years. The deans identified the department's non-professorial spending as high relative to its professorial budget and asked it to propose a plan.",
             "The non-professorial budget covered the scene and costume shops, lecturers, technical staff, and resident teaching associates. The proposed cuts affected the department's production work directly.",
-            "The Cornell Daily Sun captured the response the following day. Roughly thirty students and several faculty members met in the Schwartz Center to talk through what survival would look like, and the conversation exposed a split: some argued the pain should be distributed evenly across theatre, film, and dance, others that it would be less destructive to eliminate one program entirely than to hollow out all three. Bruce Levitt, who had chaired the department through the final phases of the building's construction, put the interdependence plainly, observing that cutting a seamstress in the costume shop damages the dancers and the actors alike. He also named the underlying misunderstanding, telling the Sun that production was viewed from above as an extracurricular activity, and that the administration did not grasp what the department actually did.",
+            "The Cornell Daily Sun captured the response the following day. Roughly thirty students and several faculty members met in the Schwartz Center to talk through what survival would look like, and the conversation exposed a split: some argued the pain should be distributed evenly across theatre, film, and dance, others that it would be less destructive to eliminate one program entirely than to hollow out all three. Bruce Levitt, who had chaired the department through the final phases of the building's construction, put the interdependence plainly, observing that cutting a seamstress in the costume shop damages the dancers and the actors alike. He also named the underlying misunderstanding, telling The Sun that production was viewed from above as an extracurricular activity, and that the administration did not grasp what the department actually did.",
             "The Sun reported that roughly 1,200 students took classes in the department each year, and that the courses most exposed were Introduction to Acting, a hands-on design course, and the dance program in its entirety. The reaction extended past campus: the Ithaca Times published a letter from alumni and community members arguing that the Schwartz Center was an integral member of Ithaca's arts ecology, not a Cornell internal matter. The final figure, as the Sun later reported, was approximately one million dollars, imposed in the spring of 2010. Its cost, though, was counted in people as much as in dollars. Over the two years that followed, twenty-two members of the department's staff were forced out, among them production managers, technical and box-office staff, lecturers, and resident teaching associates: the workforce that had kept the producing program running.",
             "The programs for the 2010/11 season register the same contraction from the inside, and record a leadership change the published reporting missed. In her chair's note to the Our Town program of November 2010, Amy Villarejo told audiences plainly that the financial crises of the preceding two years had forced significant reductions, and framed the season as a glimpse of a leaner future. A companion essay by David Feldshuh, printed as Artistic Director, established that 2010/11 was his final year in that role, after roughly a quarter century of building the producing program. Feldshuh remained on the faculty to teach, direct, and mentor, but the single artistic directorship lapsed with him: no later playbill in the archive names an Artistic Director again.",
             "The programs also show continued activity during the cuts. Performance Encounters brought David Greenspan's The Myopia and Lisa Kron to campus; the department worked with the Cornell Concert Series to bring Savion Glover to Bailey Hall; and it launched the Locally Grown Dance Festival in spring 2011.",
-            "The response to the cut was structural. In 2011 the department consolidated its theatre, film, and dance majors into one Performing and Media Arts major; the Provost approved the new department name in 2012. The merger reduced the staff burden while preserving separate minors and recast the program around history, theory and criticism; creative authorship; design; and embodied performance.",
+            "The response to the cut was structural. In 2011, the department consolidated its theatre, film, and dance majors into one Performing and Media Arts major; the Provost approved the new department name in 2012. The merger reduced the staff burden while preserving separate minors and recast the program around history, theory and criticism; creative authorship; design; and embodied performance.",
             "The transition was contested by students who feared the loss of distinct dance and film identities, but others welcomed the wider curriculum. The first season under the new name opened with Emergence in 2012, an interdisciplinary collaboration by Aoise Stratford, physicist Itai Cohen, and director Melanie Dreyer-Lude. New faculty in the period, including Austin Bunn, Anna Watkins Fisher, Vani Subramanian, and Jeffrey Palmer, gave the reorganized department its first shape.",
           ]}
           inlineImages={[
@@ -436,7 +442,6 @@ export default function EmergencePage({ onHome, navProps }: { onHome: () => void
             "The April 2019 program for Spill was dedicated to Ed Intemann, the department's resident lighting designer and a senior lecturer. He designed more than sixty Cornell productions, co-directed Blood Wedding in 2015 and the Locally Grown Dance Festival in 2013, and appeared in playbills throughout this period. After 2018/19, lighting credits shifted among students and graduate students.",
           ]}
           subsections={[
-            { label: "The chairs", title: "A succession the archive fixes", body: "Amy Villarejo signs the chair's note, or is thanked as chair, continuously from 2010/11 through 2014/15. Nick Salvato signs it from 2015/16 through at least 2019/20. Samantha Noelle Sheppard appears in the department by 2019 and becomes chair in 2022. The transitions between them, and the years from 2020 to 2022, are not yet fixed by any single document." },
             { label: "The recurring calendar", title: "The strands of a season", body: "A season braided together the faculty-directed mainstage in the Kiplinger and Flexible Theatre; the Student Lab Theatre Company, run as a course under David Feldshuh; Festival 24, which compressed the writing, directing, rehearsal, and performance of an evening of new plays into a single day; the Ten-Minute Play Festival each October; the Centrally Isolated Film Festival, founded November 2013; and the Heermans-McCalmon awards, descending from play competitions the department traces to 1917. From 2015/16 the department began organizing whole seasons around a declared theme, beginning with Salvato's “Desire.”" },
           ]}
           aside={[
@@ -487,7 +492,7 @@ export default function EmergencePage({ onHome, navProps }: { onHome: () => void
           leadParagraph="The spring 2020 season was announced and then dismantled."
           paragraphs={[
             "Auditions were held in the Flexible Theatre in late January for a slate that included Jennifer Haley's The Nether, directed by Bryan Hagelin '20 for the Student Lab Theatre Company, the Heermans-McCalmon awards presentation in March, a New Works Festival, a graduate theatre lab project titled eTRASH directed by Kelly Richmond, and Much Ado About Nothing directed by Samuel Blake, scheduled to run into early May. The archived event listing carries the flat notice that in-person events involving outside guests would not be held.",
-            "The cuts came quickly and, once again, fell on dance first. In April 2020 the Sun reported that pandemic budget reductions had halved the department's dance faculty: Cornell declined to renew the contracts of Nicholas Ceynowa and Julie Nathanielsz '93, leaving Jumay Chu, who had taught at Cornell since 1989, and Byron Suber, who had taught since 1991. Ceynowa told his students that the college had bracketed his course, meaning it could return, and that the administration hoped the loss would prove short-term. Nick Salvato was chair. Students quoted by the Sun made the same argument their predecessors had made in 2010, that the university reached for the arts first.",
+            "The cuts came quickly and, once again, fell on dance first. In April 2020, The Sun reported that pandemic budget reductions had halved the department's dance faculty: Cornell declined to renew the contracts of Nicholas Ceynowa and Julie Nathanielsz '93, leaving Jumay Chu, who had taught at Cornell since 1989, and Byron Suber, who had taught since 1991. Ceynowa told his students that the college had bracketed his course, meaning it could return, and that the administration hoped the loss would prove short-term. Sabine Haenni was department chair from 2020 to 2022. Students quoted by The Sun made the same argument their predecessors had made in 2010: that the university reached for the arts first when cash became scarce.",
             "In the fall of 2020 the department produced Off-Campus/On-Screen, Cornell Life in the Time of COVID-19, a feature-length collection of short films built from student stories, developed through virtual rehearsals, socially distanced shoots, and long-distance critique. The project was co-conceived by Rebekah Maggor, who proposed using theatre devising techniques to generate screenplays about pandemic life at Cornell, and realized with Jeffrey Palmer and Youngsun Palmer on the film side and P.A. Angelopoulos and Carolyn Goelzer in the acting studio, with master electrician Steven Blasberg largely camped in the building to make it possible. The program notes claim two firsts: it was the first time PMA theatre and film faculty and staff had collaborated on a mainstage season production, and the first time a mainstage had been given over entirely to student stories.",
           ]}
           subsections={[
@@ -510,10 +515,7 @@ export default function EmergencePage({ onHome, navProps }: { onHome: () => void
             "The archive's coverage thins here, holding two events from 2022/23. The Mush Hole, by Kaha:wi Dance Theatre, came to the Kiplinger in October 2022, a theatrical dance work on the Mohawk Institute, Canada's first Indian residential school, presented with a week of workshops, an American Indian and Indigenous Studies speaker event, and a powwow boot camp, co-sponsored by Art History and the Office of Institutional Equity and Diversity. The company's second appearance in two years marks Indigenous performance as a sustained commitment rather than a single booking. For the seasons after, the record is again published rather than archival.",
             "In October 2023 the department staged Toni Morrison's Desdemona in the Kiplinger Theatre, the poetic response to Othello that Morrison originally created in 2011 with director Peter Sellars and the Malian singer and songwriter Rokia Traoré. The Cornell production, facilitated by Beth Milles, placed student performers onstage alongside Traoré herself. The same season brought Caryl Churchill's Love and Information. In the spring of 2024 the dance program premiered This table has been a house in the rain, an evening-length interdisciplinary work responding to Joy Harjo's poem Perhaps the World Ends Here, generated, directed, and designed by students working with Danielle Russo and mentored by Eiko Otake, Ishmael Houston-Jones, and Keith Hennessy, followed by a walk-through installation in the Schwartz Center atrium. Student work traveled: The Family Copoli, described as a post-apocalyptic burlesque musical, went from the Kiplinger to the Edinburgh Fringe.",
             "In November 2024 David Feldshuh wrote and directed Orlando's Gift in the Flexible Theatre, a new play drawn from Virginia Woolf's Orlando, made with students, faculty, and guest artists. In the fall of 2025 the department produced I Want a Country by the Greek playwright Andreas Flourakis, translated by Eleni Drivas, directed by Samuel Buggeln, artistic and executive director of the Cherry Arts, an Ithaca company. Shakespeare returns in the fall of 2026 with Twelfth Night.",
-            "The department has also been building outward. It has announced Cornell in Los Angeles, an optional twelve-credit spring semester program open to all Cornell students beginning in spring 2027, directed by Kristen Warner, alongside a Sundance program and an alumni network in the entertainment industry. Cornell Cinema, founded in 1970 and housed in the Willard Straight Theatre, is now formally a program of the department, presenting more than seventy-five films a semester. Its survival was not guaranteed: the Sun reported that the Student Assembly voted in late 2017 to eliminate its byline funding entirely, after a comparable threat in 2010. It is now supported principally by the College of Arts and Sciences and the Graduate and Professional Student Assembly.",
-          ]}
-          subsections={[
-            { label: "Without interpretation", title: "One current fact for the record", body: "As of this writing the department's graduate program states that it is not accepting doctoral applications this cycle, and plans to resume for fall 2027 admission. The cause is not given on the page." },
+            "The department has also been attempting to build outward. It announced Cornell in Los Angeles, an optional twelve-credit spring semester program open to all Cornell students beginning in spring 2027, directed by Kristen Warner, alongside a Sundance program and an alumni network in the entertainment industry. Cornell Cinema, founded in 1970 and housed in the Willard Straight Theatre, is now formally a program of the department, presenting more than seventy-five films a semester. Its survival was not guaranteed: The Sun reported that the Student Assembly voted in late 2017 to eliminate its byline funding entirely, after a comparable threat in 2010. It is now supported principally by the College of Arts and Sciences and the Graduate and Professional Student Assembly.",
           ]}
         />
         </Reveal>

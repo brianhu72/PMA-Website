@@ -63,9 +63,9 @@ export default function AboutPage({ onHome, navProps }: { onHome: () => void; na
         <div style={{ maxWidth: 720, marginBottom: 80 }}>
           <p style={{ fontSize: 15, lineHeight: "26px", color: SOFT, margin: "0 0 18px" }}>
             The site is organized into three broad periods: the founding years before a permanent
-            home, the expansive Schwartz era under David Feldshuh, and the department's ongoing
+            home, the expansive Schwartz Center era, and the department's ongoing
             reinvention as Performing &amp; Media Arts. Each period draws on a distinct layer of
-            primary material, administrative records and commemorative pamphlets for the early
+            primary material: administrative records and commemorative pamphlets for the early
             years, production playbills and departmental newsletters for the Schwartz era, and
             the Cornell Chronicle and Cornell Daily Sun for the period after 2010.
           </p>
@@ -73,9 +73,7 @@ export default function AboutPage({ onHome, navProps }: { onHome: () => void; na
             The Department of Performing &amp; Media Arts, housed within the College of
             Arts &amp; Sciences, trains artists, scholars, and makers through production,
             practice, and critical inquiry. Its home, the Schwartz Center for the Performing
-            Arts, opened in 1989. The Resident Professional Theatre Associates program, which
-            ran from 1986 to 2010 and brought Equity artists into the classroom as
-            artist-teachers, is the subject of the site's Directory.
+            Arts, opened in 1989.
           </p>
         </div>
         <div style={{ borderTop: `1px solid ${RULE}`, paddingTop: 26, marginBottom: 64 }}>

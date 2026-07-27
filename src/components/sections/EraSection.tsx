@@ -116,7 +116,8 @@ export default function EraSection({ era, onClick, image, imageCaption }: EraSec
         </div>
         {image && (
           <div style={{
-            marginLeft: "auto",
+            marginLeft: mobile ? 0 : "auto",
+            width: mobile ? "min(100%, 360px)" : undefined,
             transform: "rotate(2deg)",
             background: "#fff",
             padding: "8px 8px 36px",
@@ -124,9 +125,9 @@ export default function EraSection({ era, onClick, image, imageCaption }: EraSec
             flexShrink: 0,
             pointerEvents: "none",
           }}>
-            <img src={image} alt="" style={{ width: 230, height: 175, objectFit: "cover", display: "block" }} />
+            <img src={image} alt="" style={{ width: mobile ? "100%" : 230, height: mobile ? "auto" : 175, aspectRatio: mobile ? "4 / 3" : undefined, objectFit: "cover", display: "block" }} />
             {imageCaption && (
-              <p style={{ fontSize: 9, color: "#888", textAlign: "center", marginTop: 8, letterSpacing: "0.04em", fontStyle: "italic" }}>
+              <p style={{ minHeight: 20, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#888", textAlign: "center", margin: "8px 0 0", letterSpacing: "0.04em", fontStyle: "italic" }}>
                 {imageCaption}
               </p>
             )}

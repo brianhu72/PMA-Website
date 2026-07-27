@@ -59,7 +59,7 @@ interface Entry {
   year: string;
   tag: string;
   name: string;
-  note: string;
+  note: ReactNode;
   img?: string;                                 // portrait
   feature?: { src: string; caption: string };   // large archive photograph
   quote?: { text: string; attribution: string };
@@ -75,6 +75,21 @@ const SECTIONS: Section[] = [
   {
     label: "The 1980s",
     entries: [
+      {
+        year: "1985 – 86",
+        tag: "Playwright in residence · Nobel Laureate",
+        name: "Wole Soyinka",
+        note:
+          "The Nigerian playwright, poet, and essayist Wole Soyinka was in residence at Cornell in the mid-1980s, " +
+          "the year before he became the first African writer awarded the Nobel Prize in Literature, in 1986. Two " +
+          "of his one-act Jero plays, The Trials of Brother Jero and Jero's Metamorphosis, were staged here together " +
+          "as The Jero Plays, directed by David Feldshuh; the production's faculty advisor was Henry Louis Gates Jr., " +
+          "then a professor in Cornell's Department of English.",
+        feature: {
+          src: "/guests/wole_soyinka.jpeg",
+          caption: "Wole Soyinka at Cornell.",
+        },
+      },
       {
         year: "1987 – 88",
         tag: "Directing",
@@ -198,15 +213,29 @@ const SECTIONS: Section[] = [
         img: "/guests/john_cleese.jpg",
         note:
           "The Monty Python co-founder came to Cornell in February 1999 to give a master class on comedy, and " +
-          "was named an A.D. White Professor-at-Large, a roving appointment he kept until 2006. Over those years " +
-          "he returned repeatedly to talk with students on everything from scriptwriting to psychology; the " +
-          "department still names him among the building's signal visitors.",
+          "was named an A.D. White Professor-at-Large, as which he served until 2006. Over those years, he " +
+          "returned repeatedly to the Schwartz Center to talk with students on everything from scriptwriting to psychology.",
       },
     ],
   },
   {
     label: "The 2000s",
     entries: [
+      {
+        year: "2000 – 01",
+        tag: "Performing · Amadeus",
+        name: "Roshan Seth",
+        note:
+          "The British-Indian actor Roshan Seth, known to film audiences as Nehru in Richard Attenborough's Gandhi " +
+          "and for My Beautiful Laundrette, Indiana Jones and the Temple of Doom, and Mississippi Masala, came to " +
+          "Cornell to play the lead, Salieri, the envious court composer at the heart of Peter Shaffer's Amadeus, in " +
+          "the Kiplinger Theatre. His performance anchored one of the Schwartz Center's most ambitious early-2000s " +
+          "stagings.",
+        feature: {
+          src: "/playbills/2000-01/amadeus.jpg",
+          caption: "Peter Shaffer's Amadeus, with Roshan Seth as Salieri, Kiplinger Theatre, 2000–01. From the department's playbill archive.",
+        },
+      },
       {
         year: "2001",
         tag: "Directing",
@@ -225,12 +254,9 @@ const SECTIONS: Section[] = [
         tag: "Directing · A.D. White Professor-at-Large",
         name: "Richard Schechner '56",
         img: "/guests/richard_schechner.jpg",
-        note:
-          "Schechner returned to his own university, he took his degree in 1956, as an A.D. White " +
-          "Professor-at-Large to direct Waiting for Godot, which opened at the Schwartz Center on January 30, " +
-          "2002. The founder of performance studies and longtime editor of TDR treated Beckett as music rather " +
-          "than message, cast three students in the single role of Lucky, and threw his rehearsals open to " +
-          "anyone who wanted to watch and argue.",
+        note: <>
+          Schechner, class of '56, returned to his alma mater as an A.D. White Professor-at-Large to direct <em>Waiting for Godot</em>, which opened at the Schwartz Center on January 30, 2002. Schechner, the founder of performance studies at NYU and longtime editor of <em>The Drama Review</em>, treated Samuel Beckett's text as music rather than message, cast three students in the single role of Lucky, and opened his rehearsals to anyone who wanted to watch and argue.
+        </>,
         quote: {
           text: "\"I sometimes change my mind. It's one of my worst habits; you'll just have to get used to it.\"",
           attribution: "Richard Schechner '56, on directing Waiting for Godot at Cornell, 2002",
@@ -238,13 +264,15 @@ const SECTIONS: Section[] = [
       },
       {
         year: "2004",
-        tag: "Directing · Performing",
-        name: "Regge Life & Yolanda King",
-        img: "/guests/reggie_life.jpg",
+        tag: "Performing · A Raisin in the Sun",
+        name: "Yolanda King",
+        img: "/guests/yolanda_king.jpg",
         note:
-          "The director Regge Life staged A Raisin in the Sun with Yolanda King, eldest daughter of Dr. Martin " +
-          "Luther King Jr. and Coretta Scott King, as the matriarch Lena Younger, opposite the student Godfrey " +
-          "Simmons Jr. as Walter Lee. The Cornell Daily Sun called their scenes together electric.",
+          "Yolanda King, eldest daughter of Dr. Martin Luther King Jr. and Coretta Scott King, played the " +
+          "matriarch Lena Younger in the Schwartz Center's A Raisin in the Sun in the fall of 2004, staged by " +
+          "the guest director Regge Life opposite the student Godfrey Simmons Jr. as Walter Lee. An actor and " +
+          "activist in her own right, King made the Younger family's fight for dignity resonate with her own " +
+          "inheritance; the Cornell Daily Sun called her scenes with Simmons electric.",
         quote: {
           text: "\"It was a brilliant move to cast Yokie because of who she is.\"",
           attribution: "Regge Life, director, on casting Yolanda King, 2004",
@@ -275,18 +303,21 @@ const SECTIONS: Section[] = [
         year: "2009 – 10",
         tag: "Directing",
         name: "Richard Hamburger",
+        img: "/guests/richard_hamburger.jpg",
         note: "Longtime artistic director of Dallas Theater Center, who staged Gogol's The Government Inspector on the mainstage.",
       },
       {
         year: "2009 – 10",
         tag: "Directing",
         name: "Will Rhys",
+        img: "/guests/will_rhys.jpg",
         note: "Actor and director of the American resident theatre, who staged Goldoni's The Servant of Two Masters.",
       },
       {
         year: "2009 – 10",
         tag: "Directing",
         name: "Don Tindall",
+        img: "/guests/don_tindall.jpg",
         note: "Sound designer and educator, who directed Lee Blessing's Nice People Dancing to Good Country Music.",
       },
     ],
@@ -345,19 +376,21 @@ const SECTIONS: Section[] = [
         year: "1996 – 97",
         tag: "Cornell Dance Series",
         name: "Limón Dance Company",
+        img: "/guests/limon_dance.jpg",
         note: "The company of José Limón came to the Dance Series in its fiftieth-anniversary year.",
       },
       {
         year: "1997 – 98",
         tag: "Cornell Dance Series",
         name: "Martha Graham Dance Company",
+        img: "/guests/martha_graham.jpg",
         note: "The foundational company of American modern dance.",
       },
       {
         year: "1998 – 99",
-        tag: "Residency · Dance '99",
+        tag: "Cornell Dance Series · Dance '99",
         name: "Merce Cunningham Dance Company",
-        note: "One of the defining companies of American postmodern dance, in residence for the department's Dance '99.",
+        note: <>One of the defining companies of American postmodern dance, whose technologically focused work <em>BIPED</em> debuted at Cornell during <em>Dance '99</em>.</>,
         feature: {
           src: "/scans-sz/dance99_01.jpg",
           caption: "Dance '99, with the Merce Cunningham Dance Company. Photo: Charles Harrington.",
@@ -377,18 +410,21 @@ const SECTIONS: Section[] = [
         year: "2004 – 05",
         tag: "Cornell Dance Series",
         name: "Rennie Harris Puremovement",
+        img: "/guests/rennie_harris.jpg",
         note: "The pioneering hip-hop concert-dance company.",
       },
       {
         year: "2007 – 08",
         tag: "Cornell Dance Series",
         name: "Garth Fagan Dance",
+        img: "/guests/garth_fagan.jpg",
         note: "The Rochester company of the Tony-winning choreographer of The Lion King.",
       },
       {
         year: "2007 – 08",
         tag: "Cornell Dance Series",
         name: "Stephen Petronio Company",
+        img: "/guests/stephen_petronio.jpg",
         note: "New York repertory of the postmodern choreographer.",
       },
       {
@@ -432,8 +468,10 @@ function EntryQuote({ quote }: { quote: NonNullable<Entry["quote"]> }) {
 }
 
 function RegisterEntry({ e, last }: { e: Entry; last: boolean }) {
-  const hasPortrait = !!e.img && !e.feature;
   const mobile = useIsMobile();
+  const imgSrc = e.img || e.feature?.src;
+  const caption = e.feature?.caption;
+  const SIZE = mobile ? 116 : 176;
 
   const textBlock = (
     <div>
@@ -445,38 +483,36 @@ function RegisterEntry({ e, last }: { e: Entry; last: boolean }) {
         {e.note}
       </p>
       {e.quote && <EntryQuote quote={e.quote} />}
-      {e.feature && (
-        <div style={{ marginTop: 22, width: "fit-content", maxWidth: 600, overflow: "hidden", border: "1px solid rgba(0,0,0,0.08)" }}>
-          <HoverImg src={e.feature.src} alt={e.name}
-            style={{ display: "block", maxWidth: "100%", maxHeight: 600, width: "auto", height: "auto" }} />
-        </div>
-      )}
-      {e.feature && (
-        <p style={{ fontFamily: SERIF, fontSize: 11, fontStyle: "italic", color: MUTED, margin: "12px 0 0", letterSpacing: "0.02em" }}>
-          {e.feature.caption}
-        </p>
-      )}
     </div>
   );
 
+  // Every entry with an image uses the same square frame, so the register reads evenly.
+  const imageBlock = imgSrc ? (
+    <figure style={{ margin: 0 }}>
+      <div style={{ width: SIZE, height: SIZE, borderRadius: 2, overflow: "hidden", background: "#f0ede8" }}>
+        <HoverImg src={imgSrc} alt={e.name}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+      </div>
+      {caption && (
+        <figcaption style={{ fontFamily: SERIF, fontSize: 10, fontStyle: "italic", color: MUTED, margin: "8px 0 0", lineHeight: "14px", maxWidth: SIZE }}>
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  ) : null;
+
   return (
     <div style={{ padding: "26px 0", borderBottom: last ? "none" : "1px solid rgba(0,0,0,0.08)" }}>
-      {hasPortrait ? (
+      {imgSrc ? (
         mobile ? (
           <div>
-            <div style={{ width: 96, height: 96, borderRadius: 2, overflow: "hidden", background: "#f0ede8", marginBottom: 14 }}>
-              <HoverImg src={e.img!} alt={e.name}
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-            </div>
+            <div style={{ marginBottom: 14 }}>{imageBlock}</div>
             {textBlock}
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 128px", gap: 24, alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: `1fr ${SIZE}px`, gap: 28, alignItems: "start" }}>
             {textBlock}
-            <div style={{ width: 128, height: 128, borderRadius: 2, overflow: "hidden", background: "#f0ede8" }}>
-              <HoverImg src={e.img!} alt={e.name}
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
-            </div>
+            {imageBlock}
           </div>
         )
       ) : (

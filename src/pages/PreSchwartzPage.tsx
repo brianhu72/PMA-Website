@@ -8,6 +8,7 @@ import DrummondFront   from "../assets/Drummond Front.png";
 import LyceumImg       from "../assets/lyceum.jpg";
 import WillardImg      from "../assets/WSH.jpeg";
 import CDC1            from "../assets/Cornell Dramatic Club img01.png";
+import { formatWorks } from "../lib/formatWorks";
 
 const ESPRESSO      = "#1b1b1e";
 const ESPRESSO_SOFT = "#4c4c52";
@@ -97,6 +98,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 interface AsideNote { label: string; text: string; image?: string }
 
 function NotesGrid({ notes, isDark = false }: { notes: AsideNote[]; isDark?: boolean }) {
+  const mobile = useIsMobile();
   const topRule  = `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`;
   const labelClr = isDark ? "#6b6b70" : MUTED;
   const textClr  = isDark ? "#9a9aa4" : ESPRESSO_SOFT;
@@ -128,8 +130,8 @@ function NotesGrid({ notes, isDark = false }: { notes: AsideNote[]; isDark?: boo
   return (
     <div style={{
       display: "grid",
-      gridTemplateColumns: `repeat(${cols}, 1fr)`,
-      gap: "30px 44px",
+      gridTemplateColumns: mobile ? "1fr" : `repeat(${cols}, 1fr)`,
+      gap: mobile ? 24 : "30px 44px",
       marginTop: 44,
       paddingTop: 26,
       borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
@@ -159,13 +161,14 @@ function NotesGrid({ notes, isDark = false }: { notes: AsideNote[]; isDark?: boo
 interface Sub { label: string; labelColor?: string; title: string; body: string; bodyWidth?: number }
 
 function Subsection({ title, body, bodyWidth = 900 }: Sub) {
+  const mobile = useIsMobile();
   return (
     <div style={{ marginTop: 46, paddingTop: 28, borderTop: `1px solid rgba(0,0,0,0.08)` }}>
       <p style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 600, letterSpacing: "-0.15px", lineHeight: "24px", color: ESPRESSO, marginBottom: 10 }}>
         {title}
       </p>
-      <p style={{ fontSize: 13, lineHeight: "20px", letterSpacing: "-0.027px", color: ESPRESSO_SOFT, textAlign: "justify", maxWidth: bodyWidth }}>
-        {body}
+      <p style={{ fontSize: 13, lineHeight: "21px", letterSpacing: "-0.027px", color: ESPRESSO_SOFT, textAlign: mobile ? "left" : "justify", maxWidth: bodyWidth }}>
+        {formatWorks(body)}
       </p>
     </div>
   );
@@ -188,18 +191,19 @@ interface ChapterProps {
 }
 
 function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs = [], pullQuote, subsections = [], aside, bg = TAN, inlineImage, beforeSubsections, id }: ChapterProps) {
+  const mobile   = useIsMobile();
   const isDark   = bg === DARK;
   const bodyClr  = isDark ? "#b8b8c2" : ESPRESSO;
   const muteClr  = isDark ? "#6b6b70" : MUTED;
   const ruleClr  = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
 
   return (
-    <section id={id} style={{ background: bg, paddingTop: 120, paddingBottom: 80, borderTop: `1px solid ${ruleClr}` }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section id={id} style={{ background: bg, paddingTop: mobile ? 72 : 120, paddingBottom: mobile ? 60 : 80, borderTop: `1px solid ${ruleClr}` }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
           <p style={{ fontSize: 9, fontWeight: 400, letterSpacing: "0.84px", textTransform: "uppercase", color: muteClr, lineHeight: "16px", marginBottom: 15 }}>
             {chapterLabel}
           </p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, letterSpacing: "-0.3px", lineHeight: "32px", color: isDark ? "#fff" : ESPRESSO, marginBottom: 15 }}>
+          <h2 style={{ fontFamily: SERIF, fontSize: mobile ? 27 : 30, fontWeight: 600, letterSpacing: "-0.3px", lineHeight: mobile ? "30px" : "32px", color: isDark ? "#fff" : ESPRESSO, marginBottom: 15 }}>
             {title}
           </h2>
           <p style={{ fontSize: 10, letterSpacing: "0.13px", lineHeight: "17px", color: muteClr, marginBottom: inlineImage ? 36 : 32 }}>
@@ -218,13 +222,13 @@ function ChapterSection({ chapterLabel, title, dates, leadParagraph, paragraphs 
             </figure>
           )}
           {leadParagraph && (
-            <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: isDark ? "#fff" : ESPRESSO, textAlign: "justify", marginBottom: 18 }}>
-              {leadParagraph}
+            <p style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: isDark ? "#fff" : ESPRESSO, textAlign: mobile ? "left" : "justify", marginBottom: 18 }}>
+              {formatWorks(leadParagraph)}
             </p>
           )}
           {paragraphs.map((p, i) => (
-            <p key={i} style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: bodyClr, textAlign: "justify", marginBottom: 18 }}>
-              {p}
+            <p key={i} style={{ fontSize: 15, lineHeight: "24px", letterSpacing: "-0.027px", color: bodyClr, textAlign: mobile ? "left" : "justify", marginBottom: 18 }}>
+              {formatWorks(p)}
             </p>
           ))}
           {pullQuote && (
@@ -273,7 +277,7 @@ function Hero() {
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
             <span style={{ width: 26, height: 2, background: CARNELIAN, flexShrink: 0 }} />
             <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", margin: 0, fontFamily: "Inter, sans-serif" }}>
-              Section I of III · 1880–1989
+              Section I of III · 1880–1988
             </p>
           </div>
           <h1 style={{
@@ -319,13 +323,14 @@ function DanceArrow({ dir, onClick, integrated = false }: { dir: "prev" | "next"
 function DanceFeature({ title, description, note, slides, integrated = false }: {
   title: string; description: string; note?: string; slides: Slide[]; integrated?: boolean;
 }) {
+  const mobile = useIsMobile();
   const [idx, setIdx] = useState(0);
   const count = slides.length;
   const current = slides[idx];
 
   return (
-    <div style={{ background: integrated ? "transparent" : DARK, paddingTop: integrated ? 0 : 96, paddingBottom: integrated ? 0 : 96, marginTop: integrated ? 38 : 64, borderTop: integrated ? "1px solid rgba(0,0,0,0.08)" : "1px solid rgba(255,255,255,0.06)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <div style={{ background: integrated ? "transparent" : DARK, paddingTop: integrated ? 0 : mobile ? 64 : 96, paddingBottom: integrated ? 0 : mobile ? 64 : 96, marginTop: integrated ? 38 : 64, borderTop: integrated ? "1px solid rgba(0,0,0,0.08)" : "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
         {!integrated && <>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
             <span style={{ width: 26, height: 2, background: CARNELIAN, flexShrink: 0 }} />
@@ -347,7 +352,7 @@ function DanceFeature({ title, description, note, slides, integrated = false }: 
         </>}
         <div
           onClick={() => setIdx(i => (i + 1) % count)}
-          style={{ height: integrated ? 420 : 520, marginTop: integrated ? 26 : 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          style={{ height: mobile ? (integrated ? 290 : 360) : (integrated ? 420 : 520), marginTop: integrated ? 26 : 44, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
         >
           {current.src && (
             <img
@@ -357,7 +362,7 @@ function DanceFeature({ title, description, note, slides, integrated = false }: 
             />
           )}
         </div>
-        <div style={{ marginTop: 20, paddingTop: 14, borderTop: integrated ? "1px solid rgba(0,0,0,0.08)" : "1px solid rgba(255,255,255,0.1)", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 32 }}>
+        <div style={{ marginTop: 20, paddingTop: 14, borderTop: integrated ? "1px solid rgba(0,0,0,0.08)" : "1px solid rgba(255,255,255,0.1)", display: "flex", flexDirection: mobile ? "column" : "row", justifyContent: "space-between", alignItems: mobile ? "flex-start" : "baseline", gap: mobile ? 12 : 32 }}>
           <p style={{ fontFamily: SERIF, fontSize: 12.5, lineHeight: "19px", color: integrated ? ESPRESSO_SOFT : "rgba(255,255,255,0.55)", fontStyle: "italic", margin: 0 }}>
             {current.caption}
           </p>
@@ -384,6 +389,7 @@ const CHAPTERS = [
 ];
 
 function CuratorIntro() {
+  const mobile = useIsMobile();
   const toc = CHAPTERS;
 
   const scrollTo = (id: string) => {
@@ -393,8 +399,8 @@ function CuratorIntro() {
   };
 
   return (
-    <section style={{ background: PAPER, paddingTop: 92, paddingBottom: 64 }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section style={{ background: PAPER, paddingTop: mobile ? 64 : 92, paddingBottom: mobile ? 52 : 64 }}>
+        <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
           <p style={{ fontSize: 20, lineHeight: "31px", letterSpacing: "-0.16px", color: ESPRESSO, marginBottom: 20, maxWidth: 720 }}>
             This section follows theatre at Cornell from student productions in downtown Ithaca to the 1989 opening of the Center for Theatre Arts.
           </p>
@@ -451,19 +457,20 @@ function NavArrow({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void 
 function GallerySlideshow({ galleryLabel, title, description, slides, bg = PAPER }: {
   galleryLabel: string; title: string; description: string; slides: Slide[]; bg?: string;
 }) {
+  const mobile = useIsMobile();
   const [idx, setIdx] = useState(0);
   const count = slides.length;
   const current = slides[idx];
 
   return (
-    <section style={{ background: bg, paddingTop: 80, paddingBottom: 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section style={{ background: bg, paddingTop: mobile ? 60 : 80, paddingBottom: mobile ? 60 : 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
       <p style={{ fontSize: 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, lineHeight: "15px", marginBottom: 16 }}>{galleryLabel}</p>
       <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, letterSpacing: "-0.3px", color: ESPRESSO, marginBottom: 16 }}>{title}</h2>
       <p style={{ fontSize: 11, lineHeight: "17px", color: ESPRESSO_SOFT, marginBottom: 40, maxWidth: 780 }}>{description}</p>
       <div
         onClick={() => setIdx(i => (i + 1) % count)}
-        style={{ height: 520, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+        style={{ height: mobile ? 310 : 520, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
       >
         {current.src ? (
           <img
@@ -480,7 +487,7 @@ function GallerySlideshow({ galleryLabel, title, description, slides, bg = PAPER
           <span style={{ fontFamily: SERIF, fontSize: 11, color: MUTED, fontStyle: "italic" }}>Archival photograph</span>
         )}
       </div>
-      <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid rgba(0,0,0,0.08)", display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 32 }}>
+      <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid rgba(0,0,0,0.08)", display: "flex", flexDirection: mobile ? "column" : "row", justifyContent: "space-between", alignItems: mobile ? "flex-start" : "baseline", gap: mobile ? 12 : 32 }}>
         <p style={{ fontFamily: SERIF, fontSize: 12.5, lineHeight: "19px", color: ESPRESSO_SOFT, fontStyle: "italic", margin: 0 }}>
           {current.caption}
         </p>
@@ -511,13 +518,14 @@ interface GridImage { src?: string; caption: string }
 function GalleryGrid({ galleryLabel, title, description, images, bg = PAPER }: {
   galleryLabel: string; title: string; description: string; images: GridImage[]; bg?: string;
 }) {
+  const mobile = useIsMobile();
   return (
-    <section style={{ background: bg, paddingTop: 80, paddingBottom: 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section style={{ background: bg, paddingTop: mobile ? 60 : 80, paddingBottom: mobile ? 60 : 80, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto" }}>
       <p style={{ fontSize: 8, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, lineHeight: "15px", marginBottom: 16 }}>{galleryLabel}</p>
       <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, letterSpacing: "-0.3px", color: ESPRESSO, marginBottom: 16 }}>{title}</h2>
       <p style={{ fontSize: 11, lineHeight: "17px", color: ESPRESSO_SOFT, marginBottom: 40, maxWidth: 780 }}>{description}</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, maxWidth: 900 }}>
+      <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "repeat(3, 1fr)", gap: 12, maxWidth: 900 }}>
         {images.map((img, i) => (
           <div
             key={i}
@@ -525,7 +533,7 @@ function GalleryGrid({ galleryLabel, title, description, images, bg = PAPER }: {
               position: "relative",
               background: "rgba(0,0,0,0.05)",
               aspectRatio: i === 0 ? "16/7" : "4/3",
-              gridColumn: i === 0 ? "1 / -1" : "auto",
+              gridColumn: !mobile && i === 0 ? "1 / -1" : "auto",
               borderRadius: 2,
               overflow: "hidden",
             }}
@@ -556,6 +564,7 @@ function GalleryGrid({ galleryLabel, title, description, images, bg = PAPER }: {
 
 function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates: string; onClick: () => void }) {
   const [hovered, setHovered] = useState(false);
+  const mobile = useIsMobile();
   return (
     <button
       onClick={onClick}
@@ -563,11 +572,11 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
       onMouseLeave={() => setHovered(false)}
       style={{
         display: "grid",
-        gridTemplateColumns: "42px 1fr auto",
+        gridTemplateColumns: mobile ? "30px 1fr" : "42px 1fr auto",
         alignItems: "baseline",
-        gap: 22,
+        gap: mobile ? 10 : 22,
         width: "100%",
-        padding: "17px 14px 17px 6px",
+        padding: mobile ? "16px 4px" : "17px 14px 17px 6px",
         textAlign: "left",
         background: hovered ? "rgba(0,0,0,0.025)" : "transparent",
         border: "none",
@@ -596,12 +605,13 @@ function TocRow({ n, title, dates, onClick }: { n: string; title: string; dates:
           transition: "opacity 0.18s ease, transform 0.18s ease",
         }}>→</span>
       </span>
-      <span style={{ fontSize: 11, color: MUTED, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{dates}</span>
+      {!mobile && <span style={{ fontSize: 11, color: MUTED, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>{dates}</span>}
     </button>
   );
 }
 
 function ChapterIVSection() {
+  const mobile = useIsMobile();
   const topStats = [
     { num: "4th",   label: "In the nation, 1978 Gourman Report ranking of theatre departments" },
     { num: "≈100",  label: "Actors trained by the MFA in Acting in its first fourteen years" },
@@ -623,7 +633,7 @@ function ChapterIVSection() {
 
   return (
     <section id="chapter-iv" style={{ background: TAN, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "120px 0 80px" }}>
+      <div style={{ maxWidth: 900, width: "calc(100% - 40px)", margin: "0 auto", padding: mobile ? "72px 0 60px" : "120px 0 80px" }}>
             <p style={{ fontSize: 9, fontWeight: 400, letterSpacing: "0.84px", textTransform: "uppercase", color: MUTED, lineHeight: "16px", marginBottom: 15 }}>
               Chapter IV
             </p>
@@ -655,7 +665,7 @@ function ChapterIVSection() {
               <p style={BT}>
                 In the fall of 1968, the department initiated a Master of Fine Arts in Acting, which was a small, intensive, conservatory-style program. Recruitment ran through national University Resident Theatre Association (URTA) auditions, and it was extremely selective.
               </p>
-              <div style={{ display: "flex", alignItems: "center", margin: "28px 0", gap: 10 }}>
+            <div style={{ display: "flex", flexDirection: mobile ? "column" : "row", alignItems: "center", margin: "28px 0", gap: mobile ? 18 : 10 }}>
                 {funnelItems.map((item, i) => (
                   <React.Fragment key={i}>
                     <div style={{ flex: 1, minWidth: 150, textAlign: "center" }}>
@@ -665,7 +675,7 @@ function ChapterIVSection() {
                       <p style={{ fontSize: 9, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, lineHeight: "14px", margin: "12px auto 0", maxWidth: 175 }}>{item.label}</p>
                     </div>
                     {i < funnelItems.length - 1 && (
-                      <div style={{ fontSize: 13, color: "rgba(0,0,0,0.22)", flexShrink: 0 }}>→</div>
+                    <div style={{ fontSize: 13, color: "rgba(0,0,0,0.22)", flexShrink: 0 }}>{mobile ? "↓" : "→"}</div>
                     )}
                   </React.Fragment>
                 ))}
@@ -697,11 +707,11 @@ function ChapterIVSection() {
                 The late 1970s and early 1980s saw a steady stream of guest artists: Marvin Carlson's Hamlet Festival (1978–79); Herbert Berghof's <em>Charlotte</em> (1980–81), starring his wife and longtime collaborator Uta Hagen; the playwright David Rabe directing his own <em>In the Boom Boom Room;</em> and Ray Aranha's <em>My Sister, My Sister.</em> The 1983–84 season, led by visiting artist George Touliatos, was celebrated as the seventy-fifth year of continuous dramatic activity at Cornell.
               </p>
               <p style={{ ...BT, marginBottom: 0 }}>
-                The department's international reach was further demonstrated by <strong>Michelangelo Antonioni,</strong> who served as the Andrew D. White Professor-at-Large. Earlier visitors to the film program had included Stan Brakhage, D. A. Pennebaker, Al Maysles, and Elia Kazan.
+                The department's international reach was further demonstrated by <strong>Michelangelo Antonioni,</strong> who served as an Andrew D. White Professor-at-Large. Earlier visitors to the film program had included Stan Brakhage, D. A. Pennebaker, Al Maysles, and Elia Kazan.
               </p>
             </div>
             <div style={{ marginTop: 46, paddingTop: 28, borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-              <p style={{ ...SH, marginBottom: 10 }}>Christopher Reeve!</p>
+              <p style={{ ...SH, marginBottom: 10 }}>Christopher Reeve</p>
               <p style={{ ...BT, marginBottom: 24 }}>
                 Among the students of these years was <strong>Christopher Reeve '74,</strong> who worked through the repertory across four undergraduate seasons, playing Pozzo in <em>Waiting for Godot,</em> Segismundo in <em>Life Is a Dream,</em> and the lead in <em>Rosencrantz and Guildenstern Are Dead</em> before leaving for Juilliard and, three years later, the role of Superman. A decade on, his name would appear on the alumni committee that helped plan the Center for Theatre Arts.
               </p>
@@ -829,11 +839,11 @@ export default function PreSchwartzPage({ onHome, navProps }: { onHome: () => vo
           title="Origins, From Cascadilla to the Dramatic Club"
           dates="1880 – 1925"
           inlineImage={{ src: LyceumImg, caption: "The Lyceum Theatre, downtown Ithaca, site of the 1909 inaugural Cornell Dramatic Club production of An Enemy of the People." }}
-          leadParagraph="In 1880, as Morris Bishop records in A History of Cornell, Professor Goldwin Smith bore the expense of establishing a theatre in Cascadilla, and the Cascadilla Dramatic Association was born with a production of She Stoops to Conquer. Faculty and students, including women, took part."
+          leadParagraph="In 1880, as Morris Bishop records in A History of Cornell, Professor Goldwin Smith bore the expense of establishing a Cornellian Theatre, and the Cascadilla Dramatic Association was born. Their first production, She Stoops to Conquer, featured faculty and students of both genders."
           paragraphs={[
-            "Ten years later, a new student organization called the Masque was organized; its early members, in Bishop's phrase, \"found the formula of the all-male college musical,\" producing original works with titles such as Anno 1992, Popocaterpillar, The Misfit Man, and The President of Oolong. Women of the campus, impelled by their exclusion from these productions, organized their own work, including a dramatization of Tennyson's The Princess under the Sage Dramatic Club.",
-            "Other clubs multiplied in the first decade of the twentieth century. A French-language club staged two farces in Barnes Hall in 1903, and a full-length comedy downtown Ithaca at the Lyceum Theatre the following year, \"a financial as well as artistic success.\" A German society staged Alt Heidelberg in 1908 and, the next year, obtained $10,000 of scenery, costumes, and equipment from a New York theatre to mount Schiller's Wilhelm Tell at the Lyceum.",
-            "The Cornell Dramatic Club emerged in 1909 against this background. James A. Winans, chairman of Public Speaking, and Smiley Blanton, M.D. '14, later a famous psychiatrist and writer, organized a production of Henrik Ibsen's An Enemy of the People at the Lyceum in what Cornell's own commemorative materials describe as \"remarkably energetic and fruitful.\" The independent Cornell Women's Dramatic Club would formally merge with the CDC in 1925.",
+            "Ten years later, a new student organization called the Masque was founded. Its early members, in Bishop's phrase, \"found the formula of the all-male college musical,\" producing original works such as Anno 1992, Popocaterpillar, The Misfit Man, and The President of Oolong. Women of the campus, impelled by their exclusion from these productions, organized their own work, including a dramatization of Alfred Tennyson's The Princess under the Sage Dramatic Club.",
+            "Other dramatic clubs multiplied in the first decade of the twentieth century. A French-language club staged two farces in Barnes Hall in 1903 and a full-length comedy in downtown Ithaca at the Lyceum Theatre the following year, noted as \"a financial as well as artistic success.\" A German society staged Alt Heidelberg in 1908 and, the next year, obtained $10,000 of scenery, costumes, and equipment from a New York theatre to mount Schiller's Wilhelm Tell at the Lyceum.",
+            "The Cornell Dramatic Club emerged in 1909 against this background. James A. Winans, chairman of Public Speaking, and Smiley Blanton, M.D. '14, later a famous psychiatrist and writer, organized a production of Henrik Ibsen's An Enemy of the People at the Lyceum in what Cornell's own commemorative materials describe as \"remarkably energetic and fruitful.\" The independent Cornell Women's Dramatic Club would formally merge with the Cornell Dramatic Club in 1925.",
             "The club introduced American audiences to plays they could see nowhere else, including Giuseppe Giacosa's Like Falling Leaves, Jacques Copeau's The House into Which We Are Born, Jules Romains' Doctor Knock, and Luigi Pirandello's Right You Are, If You Think So (1927). Its policy was \"to present important European plays seldom or never before offered on the American stage.\" The Cornell Dramatic Club admitted men and women on terms of complete equality, identified in the department's own records as the first Cornell organization to do so.",
           ]}
         />
@@ -866,8 +876,8 @@ export default function PreSchwartzPage({ onHome, navProps }: { onHome: () => vo
           paragraphs={[
             "The artist J. Monroe Hewlett was commissioned to decorate the walls with murals depicting scenes from classical theatre and Shakespeare; those murals remained, decades later, \"among the most-cherished features of the Cornell campus.\" The inaugural production, Royal Tyler's The Contrast, which Bishop calls \"the first social comedy written and produced in America,\" starred Franchot Tone '27, who within a decade would become a major Broadway, Hollywood, and Group Theatre figure.",
             "Professor Blanton directed the club until 1911, when Lew D. Fallis assumed the post for a single year. In 1912, Alexander M. Drummond became director, a position he would hold until his retirement in 1947. His thirty-five-year tenure shaped the institutional, pedagogical, and creative character of theatre at Cornell so thoroughly that, for decades afterward, his name was described as synonymous with the enterprise: his contributions were both intellectual and structural.",
-            "Those contributions began in the classroom. Drummond had started teaching theatre as early as 1919; in 1922 the university granted academic credit for drama for the first time, and regular playwriting courses followed in 1931. The graduate programs were among the earliest of their kind in the country: a Master of Arts in dramatic production from 1925–26 and a Doctor of Philosophy in drama from 1929–30. The scale of the enterprise was considerable: in an average year the club drew on roughly four hundred students to stage a dozen full-length plays and as many as thirty-six one-acts before audiences of some fifteen thousand.",
-            "This activity fed a growing culture of new work. In 1932, Samuel French published the first volume of Cornell Plays, a collection of dramas by students and faculty; among the recipients of the Drummond Playwriting Prize was Sidney Kingsley '28, whose Men in White (1934 Pulitzer), Dead End, The Patriots, and Darkness at Noon would carry the Cornell tradition to the most visible American stages. Drummond's ambitions reached past the campus as well: with the Rockefeller Foundation's sponsorship he founded the New York State Plays Project, sending students into upstate communities to make community-centered performances. His work places him, in the history of American educational theatre, alongside Frederick H. Koch of the Carolina Playmakers and E. C. Mabie of Iowa as a founder of the discipline.",
+            "Those contributions began in the classroom. Drummond had started teaching theatre as early as 1919; in 1922, the university granted academic credit for drama for the first time, and regular playwriting courses followed in 1931. Cornell's dramatic graduate programs were among the earliest of their kind in the country: a Master of Arts in dramatic production from 1925–26 and a Doctor of Philosophy in drama from 1929–30. The scale of the enterprise was considerable: in an average year, the club drew roughly four hundred students to stage a dozen full-length plays and as many as thirty-six one-acts before audiences of roughly fifteen thousand.",
+            "This activity fed a growing culture of new work. In 1932, Samuel French published the first volume of Cornell Plays, a collection of dramas by students and faculty; among the recipients of the Drummond Playwriting Prize was Sidney Kingsley '28, whose Men in White (1934 Pulitzer), Dead End, The Patriots, and Darkness at Noon would carry the Cornell tradition to the most visible American stages. Drummond's ambitions reached past the campus as well. With the Rockefeller Foundation's sponsorship, he founded the New York State Plays Project, sending students into upstate communities to make community-centered performances. His work places him, in the history of American educational theatre, alongside Frederick H. Koch of the Carolina Playmakers and E. C. Mabie of Iowa as a founder of the discipline.",
             "Other arts took root alongside the drama program: dance festivals were staged at least as early as 1926, and in the 1930s Cornell was among the first research universities to draw on the Museum of Modern Art's circulating film library. The institutional structure caught up with the ambition in 1930, when the Board of Trustees formally established Cornell University Theatre as an umbrella body, with Drummond continuing as director.",
             "This era also marked a milestone with key significance. In 1943, Thomas Poag completed his dissertation, The Negro in Drama and Theatre, and departmental records identify him as the first Black scholar in the United States to earn a PhD in theatre studies.",
           ]}
@@ -896,8 +906,8 @@ export default function PreSchwartzPage({ onHome, navProps }: { onHome: () => vo
           dates="1947 – 1967"
           leadParagraph={'Drummond\'s retirement in 1947 inaugurated a period of transition. Walter H. Stainton, who had been Drummond\'s "closest aide and theater technician," and who had been teaching film during Drummond\'s later years, directed Cornell University Theatre from 1947 to 1952. George McCalmon followed, serving until his death in 1965. McCalmon’s contributions continued to be remembered through the Heermans–McCalmon Playwriting Competition, which was named in his honor.'}
           paragraphs={[
-            "A film program entered the curriculum in 1953. In 1967 the Department of Theatre Arts was formally established as an independent academic unit, bringing together the producing functions of Cornell Theatre with the academic programs in dramatic literature, theatre history, criticism, and theory.",
-            "The film program that had entered the curriculum in 1953 found its defining figures in the decades that followed. Donald Fredericksen arrived in 1971 as a professor of film and became the founding figure of film studies in the department, teaching for more than forty years until his death in 2015; the department and Cornell Cinema later marked his life with a memorial screening of Ingmar Bergman's Persona. Marilyn Rivchin joined in 1979 to teach filmmaking, anchoring the production side of the program through 2012, so that film was studied at Cornell both as an object of scholarship and as a practice.",
+            "A film program entered the curriculum in 1953. In 1967, the Department of Theatre Arts was formally established as an independent academic unit, bringing together the producing functions of Cornell Theatre with the academic programs in dramatic literature, theatre history, criticism, and theory.",
+            "The film program that had entered the curriculum in 1953 found its defining figures in the decades that followed. Donald Fredericksen arrived in 1971 as a professor of film and became the founding figure of film studies in the department, teaching for more than forty years until his death in 2015. The department and Cornell Cinema later marked his life with a memorial screening of Ingmar Bergman's Persona. Marilyn Rivchin joined in 1979 to teach filmmaking, anchoring the production side of the program through 2012, so that film was studied at Cornell both as an object of scholarship and as a practice.",
             "Production records for this period are uneven, and a comprehensive chronology of CDC and CU Theatre productions between roughly 1947 and 1978 has not been constructed. The graduate programs benefited from one of the largest theatre research libraries in the country, with extensive resources including the George Jean Nathan and Wason collections."
           ]}
         />
@@ -912,10 +922,10 @@ export default function PreSchwartzPage({ onHome, navProps }: { onHome: () => vo
           leadParagraph="The Center for Theatre Arts took a decade to move from a fundraising ambition to a working home in Collegetown. In September 1984, David Feldshuh was appointed the first Artistic Director of Theatre Cornell, a position created as part of the institutional preparation for the building."
           paragraphs={[
             "Between 1984 and the opening of the new building, Feldshuh directed the productions that defined the late pre-Schwartz years.",
-            "Stephen Kanee's production of Molière's Scapin in spring 1988 was the last production mounted in the department's traditional performance spaces before the move to the Center for Theatre Arts.",
-            "By the early 1980s, drama was confined to the aging Willard Straight Theatre and a makeshift Lincoln Hall studio, with no connected rehearsal, costume, or construction facilities. President Frank Rhodes made a new theatre-arts building a top fundraising priority in 1979; every dollar would have to be raised externally.",
-            "James Stirling, Michael Wilford & Associates received the commission in 1982. Construction began in October 1984 on the Cascadilla Gorge site and the building was formally dedicated on April 10, 1989, after a longer-than-projected build.",
-            "The completed center united a 500-seat proscenium theatre, flexible theatre, black box, film forum, studios, shops, and a production environment for theatre, dance, and film under one roof.",
+            "Stephen Kanee's production of Molière's Scapin in the spring of 1988 was the last production mounted in the department's traditional performance spaces before the move to the Center for Theatre Arts.",
+            "By the early 1980s, drama was confined to the aging Willard Straight Theatre and a makeshift Lincoln Hall studio, with no connected rehearsal, costume, or construction facilities. President Frank Rhodes made a new theatre-arts building a top fundraising priority in 1979.",
+            "Architects James Stirling and Michael Wilford & Associates received the commission in 1982. Construction began in October 1984 on the Cascadilla Gorge site, and the building was formally dedicated on April 10, 1989, after a longer-than-projected build.",
+            "The completed center united a 471-seat proscenium theatre, flexible theatre, black box, film forum, studios, shops, and a production environment for theatre, dance, and film under one roof.",
           ]}
           subsections={[
             { label: "Planning and funding", title: "A project built by a wide coalition", body: "Austin Kiplinger '39, Gordon Davidson '56, Christopher Reeve '74, Beatrice Straight, Jennifer Tipton, and other alumni helped guide the campaign. Named gifts supported the Pavilion, Garden, Ames Film Production Studio, Greenroom, Gannett Plaza, and Flexible Theatre." },

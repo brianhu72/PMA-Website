@@ -13,18 +13,29 @@
   --max-width:     1440px;
   --gutter:        80px;
 }
-html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   background-color: var(--color-dark);
   color:            var(--color-light);
   font-family:      var(--font-family);
   min-height:       100vh;
+  overflow-x:       hidden;
 }
 
 a { color: inherit; text-decoration: none; }
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; touch-action: manipulation; }
 img { display: block; max-width: 100%; }
+
+@media (max-width: 639px) {
+  :root { --gutter: 20px; }
+  input, button, textarea, select { font-size: 16px; }
+}
 
 @keyframes cardFadeUp {
   from { opacity: 0; transform: translateY(28px); }

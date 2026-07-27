@@ -3,9 +3,9 @@ import { useState } from "react";
 type SectionKey = "pre-schwartz" | "schwartz" | null;
 
 const SECTIONS: { n: string; title: string; dates: string; key: SectionKey }[] = [
-  { n: "I",   title: "Before the Center",   dates: "1880 – 1989",    key: "pre-schwartz" },
-  { n: "II",  title: "The Schwartz Years",  dates: "1988 – 2010",    key: "schwartz" },
-  { n: "III", title: "Emergence of PMA", dates: "2010 – Present", key: null },
+  { n: "I",   title: "Before the Center",   dates: "1880 – 1988",    key: "pre-schwartz" },
+  { n: "II",  title: "The Schwartz Years",  dates: "1988 – 2011",    key: "schwartz" },
+  { n: "III", title: "Emergence of PMA", dates: "2011 – Present", key: null },
 ];
 
 interface SectionsNavProps {

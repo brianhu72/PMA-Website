@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { pageZoom } from "../lib/scale";
 import Nav from "../components/layout/Nav";
 import Footer from "../components/layout/Footer";
@@ -377,7 +377,7 @@ function ContactCard({ contact }: { contact: Contact }) {
 }
 
 
-interface Alumnus { name: string; affiliation: string; blurb: string }
+interface Alumnus { name: string; affiliation: string; blurb: ReactNode }
 interface AlumniEra { numeral: string; title: string; range: string; people: Alumnus[] }
 
 const ALUMNI_PHOTOS: Record<string, string> = {
@@ -415,22 +415,22 @@ const ALUMNI_ERAS: AlumniEra[] = [
       {
         name: "Paul Green",
         affiliation: "Graduate study, 1922–1923",
-        blurb: "A Pulitzer Prize winner for In Abraham's Bosom (1927) and later the author of The Lost Colony and sixteen other outdoor dramas, Green spent a year in graduate study in philosophy at Cornell before returning to the University of North Carolina as an assistant professor in 1923. Though he trained as a dramatist under Frederick H. Koch and the Carolina Playmakers at Chapel Hill rather than in Ithaca, he continued writing during his Cornell year, publishing “Carolina Sketches” in Raleigh's News and Observer, work that contained the germ of material he later developed in Potter's Field and This Body the Earth.",
+        blurb: <>A Pulitzer Prize winner for <em>In Abraham's Bosom</em> (1927) and later the author of <em>The Lost Colony</em> and sixteen other outdoor dramas, Green spent a year in graduate study in philosophy at Cornell before returning to the University of North Carolina as an assistant professor in 1923. Though he trained as a dramatist under Frederick H. Koch and the Carolina Playmakers at Chapel Hill rather than in Ithaca, he continued writing during his Cornell year, publishing “Carolina Sketches” in Raleigh's <em>News and Observer</em>, work that contained the germ of material he later developed in <em>Potter's Field</em> and <em>This Body the Earth</em>.</>,
       },
       {
         name: "Franchot Tone",
         affiliation: "Class of 1927",
-        blurb: "President of the Cornell Dramatic Club, where he trained in the program founded by A. M. Drummond, Tone gave up a place in the family business for the stage. He became a founding member of the Group Theatre and an Academy Award nominee for Mutiny on the Bounty (1935), and was a leading man of the American stage and screen through the 1930s and 1940s.",
+        blurb: <>President of the Cornell Dramatic Club, where he trained in the program founded by A. M. Drummond, Tone gave up a place in the family business for the stage. He became a founding member of the Group Theatre and an Academy Award nominee for <em>Mutiny on the Bounty</em> (1935), and was a leading man of the American stage and screen through the 1930s and 1940s.</>,
       },
       {
         name: "Gene Saks",
         affiliation: "Class of 1943",
-        blurb: "An inductee of the American Theater Hall of Fame who received seven Tony Award nominations for direction and won three of them, for I Love My Wife, Brighton Beach Memoirs, and Biloxi Blues. He was Neil Simon's principal director on both stage and screen, with credits including Mame, The Odd Couple, and Same Time, Next Year.",
+        blurb: <>An inductee of the American Theater Hall of Fame who received seven Tony Award nominations for direction and won three of them, for <em>I Love My Wife</em>, <em>Brighton Beach Memoirs</em>, and <em>Biloxi Blues</em>. He was Neil Simon's principal director on both stage and screen, with credits including <em>Mame</em>, <em>The Odd Couple</em>, and <em>Same Time, Next Year</em>.</>,
       },
       {
         name: "Harold Gould",
         affiliation: "M.A. 1948, Ph.D. 1953",
-        blurb: "An award-winning actor of stage, film, and television who took his graduate degrees at Cornell in theater and in dramatic speech and literature. He returned to campus in September 1997 to play Willy Loman in the Center for Theatre Arts production of Death of a Salesman, opposite his wife, Lea Vernon, B.A. '48, M.A. '53.",
+        blurb: <>An award-winning actor of stage, film, and television who took his graduate degrees at Cornell in theater and in dramatic speech and literature. He returned to campus in September 1997 to play Willy Loman in the Center for Theatre Arts production of <em>Death of a Salesman</em>, opposite his wife, Lea Vernon, B.A. '48, M.A. '53.</>,
       },
       {
         name: "Christopher Reeve",
@@ -440,22 +440,22 @@ const ALUMNI_ERAS: AlumniEra[] = [
       {
         name: "Paula Vogel",
         affiliation: "M.A. 1976, Ph.D. 2016",
-        blurb: "A playwright of the first rank whose How I Learned to Drive received the Pulitzer Prize for Drama. Her play Indecent was later produced on Broadway, and she returned to Cornell for a doctorate four decades after her master's degree.",
+        blurb: <>A playwright of the first rank whose <em>How I Learned to Drive</em> received the Pulitzer Prize for Drama. Her play <em>Indecent</em> was later produced on Broadway, and she returned to Cornell for a doctorate four decades after her master's degree.</>,
       },
       {
         name: "Robert Schenkkan",
         affiliation: "M.F.A. 1977",
-        blurb: "A graduate of the Theatre Arts M.F.A. program who won the Pulitzer Prize for Drama in 1992 for The Kentucky Cycle and the Tony Award for Best Play in 2014 for All the Way. He has also worked extensively as a screenwriter, with three Emmy nominations and a Writers Guild of America Award.",
+        blurb: <>A graduate of the Theatre Arts M.F.A. program who won the Pulitzer Prize for Drama in 1992 for <em>The Kentucky Cycle</em> and the Tony Award for Best Play in 2014 for <em>All the Way</em>. He has also worked extensively as a screenwriter, with three Emmy nominations and a Writers Guild of America Award.</>,
       },
       {
         name: "Jimmy Smits",
         affiliation: "M.F.A. 1982",
-        blurb: "An Emmy-winning actor whose Broadway credits include the Pulitzer Prize–winning Anna in the Tropics and God of Carnage. He performed on the Cornell stage and with the university's summer repertory company (then the Ithaca Repertory Theatre, now the Hangar Theatre), and returned to the Schwartz Center in December 2011 to receive the Cornell Alumni Artist Award.",
+        blurb: <>An Emmy-winning actor whose Broadway credits include the Pulitzer Prize-winning <em>Anna in the Tropics</em> and <em>God of Carnage</em>. He performed on the Cornell stage and with the university's summer repertory company (then the Ithaca Repertory Theatre, now the Hangar Theatre), and returned to the Schwartz Center in December 2011 to receive the Cornell Alumni Artist Award.</>,
       },
       {
         name: "Jane Lynch",
         affiliation: "M.F.A. 1984",
-        blurb: "An Emmy and Golden Globe winner best known for her work in Glee, with later credits including The Marvelous Mrs. Maisel, who took her graduate degree in theater at Cornell.",
+        blurb: <>An Emmy and Golden Globe winner best known for her work in <em>Glee</em>, with later credits including <em>The Marvelous Mrs. Maisel</em>, who took her graduate degree in theater at Cornell.</>,
       },
     ],
   },
@@ -467,17 +467,17 @@ const ALUMNI_ERAS: AlumniEra[] = [
       {
         name: "Jason Ardizzone-West",
         affiliation: "Class of 1995",
-        blurb: "A set designer for Broadway, television, and concert stages whose credits include the Broadway musical Redwood. He came to Cornell through the five-year Bachelor of Architecture program but spent much of his time at the Center for Theatre Arts, studying in classes and independent study with set design professor Kent Goetz.",
+        blurb: <>A set designer for Broadway, television, and concert stages whose credits include the Broadway musical <em>Redwood</em>. He came to Cornell through the five-year Bachelor of Architecture program but spent much of his time at the Center for Theatre Arts, studying in classes and independent study with set design professor Kent Goetz.</>,
       },
       {
         name: "Sam Gold",
         affiliation: "Class of 2000",
-        blurb: "A stage director who won the Tony Award for Best Direction of a Musical for Fun Home, with a further Tony nomination for direction of a play and four Drama Desk nominations. He has directed extensively on Broadway and off-Broadway.",
+        blurb: <>A stage director who won the Tony Award for Best Direction of a Musical for <em>Fun Home</em>, with a further Tony nomination for direction of a play and four Drama Desk nominations. He has directed extensively on Broadway and off-Broadway.</>,
       },
       {
         name: "Maria Dizzia",
         affiliation: "Class of 1998",
-        blurb: "An actor whose Cornell productions included The Importance of Being Earnest and Tartuffe. She received a 2010 Tony Award nomination for Best Featured Actress in a Play for In the Next Room, or the vibrator play, and has worked across theatre, film, and television.",
+        blurb: <>An actor whose Cornell productions included <em>The Importance of Being Earnest</em> and <em>Tartuffe</em>. She received a 2010 Tony Award nomination for Best Featured Actress in a Play for <em>In the Next Room, or the vibrator play</em>, and has worked across theatre, film, and television.</>,
       },
       {
         name: "Lee Rosenthal",
@@ -509,7 +509,7 @@ const ALUMNI_ERAS: AlumniEra[] = [
       {
         name: "Dana Lerner",
         affiliation: "Class of 2014",
-        blurb: "A theatre arts major, with a minor in visual studies, who became a Tony Award–nominated producer in 2017 for Indecent. She has since worked with Broadway Across America and founded her own creative consultancy.",
+        blurb: <>A theatre arts major, with a minor in visual studies, who became a Tony Award-nominated producer in 2017 for <em>Indecent</em>. She has since worked with Broadway Across America and founded her own creative consultancy.</>,
       },
       {
         name: "Gloria Majule",
