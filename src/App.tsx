@@ -16,6 +16,59 @@ import GuestsPage from "./pages/GuestsPage";
 
 type Page = "home" | "pre-schwartz" | "schwartz" | "emergence" | "directory" | "about" | "repertory" | "guests";
 
+function ArchiveNote({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, []);
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="archive-note-title"
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 500,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: 20,
+        background: "rgba(14,14,18,0.42)",
+        backdropFilter: "blur(5px)",
+        WebkitBackdropFilter: "blur(5px)",
+        animation: "archiveNoteFadeIn 260ms ease-out both",
+      }}
+    >
+      <section
+        onClick={event => event.stopPropagation()}
+        style={{
+          width: "min(100%, 580px)",
+          background: "#ffffff",
+          color: "#1b1b1e",
+          padding: "clamp(28px, 5vw, 48px)",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.28)",
+          animation: "archiveNoteRise 360ms cubic-bezier(0.22, 1, 0.36, 1) both",
+        }}
+      >
+        <div style={{ width: 36, height: 2, background: "#b31b1b", marginBottom: 22 }} />
+        <h2 id="archive-note-title" style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: "clamp(26px, 5vw, 34px)", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.08, margin: "0 0 20px" }}>
+          Archival Note
+        </h2>
+        <p style={{ fontSize: 15, lineHeight: "24px", color: "#4c4c52", margin: 0 }}>
+          This archival website is based on the contents of twenty-two boxes of material previously stored in the department’s warehouse. We know there are gaps and omissions in this collection of photographs, articles, programs, historical documents, and records of the people associated with the department.
+        </p>
+        <button
+          onClick={onClose}
+          autoFocus
+          style={{ marginTop: 30, background: "#b31b1b", color: "#ffffff", padding: "13px 20px", fontSize: 12, fontWeight: 600, letterSpacing: "0.04em" }}
+        >
+          Continue to the archive
+        </button>
+      </section>
+    </div>
+  );
+}
+
 
 export default function App() {
   const [introDone, setIntroDone] = useState(() => sessionStorage.getItem("pma-intro-seen") === "1");
@@ -25,6 +78,7 @@ export default function App() {
   const [page, setPage] = useState<Page>("home");
   const [scrollToEras, setScrollToEras] = useState(false);
   const [atHero, setAtHero] = useState(true);
+  const [archiveNoteOpen, setArchiveNoteOpen] = useState(false);
 
   useEffect(() => {
     if (page === "home" && scrollToEras) {
@@ -62,6 +116,17 @@ export default function App() {
 
     return () => { mounted = false; };
   }, [fontsReady]);
+
+  useEffect(() => {
+    if (!introDone || !fontsReady || page !== "home" || sessionStorage.getItem("pma-archive-note-seen") === "1") return;
+    const timer = window.setTimeout(() => setArchiveNoteOpen(true), 550);
+    return () => window.clearTimeout(timer);
+  }, [introDone, fontsReady, page]);
+
+  const closeArchiveNote = () => {
+    sessionStorage.setItem("pma-archive-note-seen", "1");
+    setArchiveNoteOpen(false);
+  };
 
   const navProps = {
     onHome:        () => setPage("home"),
@@ -151,6 +216,7 @@ export default function App() {
         ))}
       </main>
       <Footer />
+      {archiveNoteOpen && <ArchiveNote onClose={closeArchiveNote} />}
     </>
   );
 }

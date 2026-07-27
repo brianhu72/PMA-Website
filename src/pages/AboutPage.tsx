@@ -24,6 +24,12 @@ const SOURCES = [
   "Department of Theatre Arts records & the Alexander M. Drummond Papers, Division of Rare and Manuscript Collections",
 ];
 
+const NEXUS_TEAM = [
+  { name: "Brian Hu", role: "Website development", image: "/nexus-scholars/brian-hu.jpg", position: "center 15%" },
+  { name: "David Gilmore", role: "Scanning and digitization", image: "/nexus-scholars/david.jpg" },
+  { name: "Peter Buskirk", role: "Content research", image: "/nexus-scholars/peter.png" },
+];
+
 export default function AboutPage({ onHome, navProps }: { onHome: () => void; navProps?: NavConfig }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   const mobile = useIsMobile();
@@ -77,6 +83,28 @@ export default function AboutPage({ onHome, navProps }: { onHome: () => void; na
             Arts, opened in 1989.
           </p>
         </div>
+        <section style={{ borderTop: `1px solid ${RULE}`, paddingTop: 26, marginBottom: 80 }}>
+          <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, margin: "0 0 12px" }}>
+            Research team
+          </p>
+          <h2 style={{ fontFamily: "'Newsreader', Georgia, serif", fontSize: mobile ? 27 : 31, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.1, color: ESPRESSO, margin: "0 0 14px" }}>
+            2026 Nexus Scholars
+          </h2>
+          <p style={{ fontSize: 14, lineHeight: "23px", color: SOFT, margin: "0 0 28px", maxWidth: 680 }}>
+            Supported by Professor Bruce Levitt, among others, this exhibition was developed by the 2026 Nexus Scholars.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "repeat(3, 1fr)", gap: mobile ? 24 : 20 }}>
+            {NEXUS_TEAM.map(member => (
+              <article key={member.name} style={{ borderTop: `1px solid ${RULE}`, paddingTop: 14 }}>
+                <div style={{ width: "100%", aspectRatio: "1 / 1", overflow: "hidden", marginBottom: 14 }}>
+                  <img src={member.image} alt={member.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: member.position ?? "center top", display: "block", transform: `scale(${member.scale ?? 1})` }} />
+                </div>
+                <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: "-0.01em", color: ESPRESSO, margin: 0 }}>{member.name}</p>
+                <p style={{ fontSize: 12, lineHeight: "19px", color: RED, margin: "4px 0 0" }}>{member.role}</p>
+              </article>
+            ))}
+          </div>
+        </section>
         <div style={{ borderTop: `1px solid ${RULE}`, paddingTop: 26, marginBottom: 64 }}>
           <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, margin: "0 0 14px" }}>
             Principal sources
