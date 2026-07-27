@@ -13,6 +13,7 @@ export default function ChapterRail({ toc }: { toc: RailItem[] }) {
   const [hovered, setHovered] = useState(false);
   const [activeId, setActiveId] = useState(toc[0]?.id);
   const [visible, setVisible] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const mobile = useIsMobile();
 
   useEffect(() => {
@@ -39,7 +40,62 @@ export default function ChapterRail({ toc }: { toc: RailItem[] }) {
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 76 * pageZoom(), behavior: "smooth" });
   };
 
-  if (mobile) return null;
+  if (mobile) {
+    const active = toc.find(item => item.id === activeId) ?? toc[0];
+
+    if (!visible) return null;
+
+    return (
+      <nav aria-label="Chapters">
+        {mobileOpen && (
+          <>
+            <button
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close chapter contents"
+              style={{ position: "fixed", inset: 0, zIndex: 151, background: "rgba(14,14,18,0.35)", border: "none", padding: 0 }}
+            />
+            <div style={{ position: "fixed", zIndex: 152, left: 0, right: 0, bottom: 0, maxHeight: "72dvh", overflowY: "auto", background: "#ffffff", borderRadius: "18px 18px 0 0", boxShadow: "0 -12px 42px rgba(0,0,0,0.2)", padding: "18px 20px max(24px, env(safe-area-inset-bottom))" }}>
+              <div style={{ width: 34, height: 4, borderRadius: 4, background: "#d5d5da", margin: "0 auto 18px" }} />
+              <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 12 }}>
+                <p style={{ fontFamily: SERIF, fontSize: 19, fontWeight: 600, color: ESPRESSO, margin: 0 }}>Contents</p>
+                <button onClick={() => setMobileOpen(false)} style={{ fontSize: 12, color: MUTED, padding: "6px 0" }}>Close</button>
+              </div>
+              <div style={{ borderTop: "1px solid rgba(0,0,0,0.09)" }}>
+                {toc.map(item => {
+                  const itemActive = item.id === activeId;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => { setMobileOpen(false); scrollTo(item.id); }}
+                      style={{ display: "grid", gridTemplateColumns: "28px 1fr", gap: 10, width: "100%", textAlign: "left", padding: "15px 0", borderBottom: "1px solid rgba(0,0,0,0.09)", background: "none" }}
+                    >
+                      <span style={{ fontFamily: SERIF, fontSize: 12, fontStyle: "italic", color: itemActive ? CARNELIAN : MUTED }}>{item.n}</span>
+                      <span>
+                        <span style={{ display: "block", fontSize: 14, fontWeight: itemActive ? 600 : 500, lineHeight: "19px", color: itemActive ? CARNELIAN : ESPRESSO }}>{item.title}</span>
+                        {item.dates && <span style={{ display: "block", fontSize: 10, letterSpacing: "0.04em", color: MUTED, marginTop: 3 }}>{item.dates}</span>}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
+        <button
+          onClick={() => setMobileOpen(true)}
+          aria-expanded={mobileOpen}
+          style={{ position: "fixed", right: 16, bottom: "max(16px, env(safe-area-inset-bottom))", zIndex: 150, display: "flex", alignItems: "center", gap: 8, padding: "11px 14px", borderRadius: 999, background: "#ffffff", color: ESPRESSO, boxShadow: "0 6px 22px rgba(0,0,0,0.18)", border: "1px solid rgba(0,0,0,0.08)", fontSize: 12, fontWeight: 600 }}
+        >
+          <span style={{ width: 14, height: 10, display: "inline-flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <span style={{ height: 1, background: CARNELIAN }} />
+            <span style={{ height: 1, background: CARNELIAN }} />
+            <span style={{ height: 1, background: CARNELIAN }} />
+          </span>
+          {active?.title ?? "Contents"}
+        </button>
+      </nav>
+    );
+  }
 
   return (
     <nav
