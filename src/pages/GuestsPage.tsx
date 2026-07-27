@@ -61,6 +61,8 @@ interface Entry {
   name: string;
   note: ReactNode;
   img?: string;                                 // portrait
+  imageFit?: CSSProperties["objectFit"];
+  imagePosition?: CSSProperties["objectPosition"];
   feature?: { src: string; caption: string };   // large archive photograph
   quote?: { text: string; attribution: string };
 }
@@ -374,6 +376,8 @@ const SECTIONS: Section[] = [
         tag: "Cornell Dance Series",
         name: "Limón Dance Company",
         img: "/guests/limon_dance.jpg",
+        imageFit: "contain",
+        imagePosition: "center",
         note: "The company of José Limón came to the Dance Series in its fiftieth-anniversary year.",
       },
       {
@@ -415,6 +419,8 @@ const SECTIONS: Section[] = [
         tag: "Cornell Dance Series",
         name: "Garth Fagan Dance",
         img: "/guests/garth_fagan.jpg",
+        imageFit: "contain",
+        imagePosition: "center",
         note: "The Rochester company of the Tony-winning choreographer of The Lion King.",
       },
       {
@@ -488,7 +494,7 @@ function RegisterEntry({ e, last }: { e: Entry; last: boolean }) {
     <figure style={{ margin: 0 }}>
       <div style={{ width: SIZE, height: SIZE, borderRadius: 2, overflow: "hidden", background: "#f0ede8" }}>
         <HoverImg src={imgSrc} alt={e.name}
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+          style={{ width: "100%", height: "100%", objectFit: e.imageFit ?? "cover", objectPosition: e.imagePosition ?? "center top", display: "block" }} />
       </div>
       {caption && (
         <figcaption style={{ fontFamily: SERIF, fontSize: 10, fontStyle: "italic", color: MUTED, margin: "8px 0 0", lineHeight: "14px", maxWidth: SIZE }}>

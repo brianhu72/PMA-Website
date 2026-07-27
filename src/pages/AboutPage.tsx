@@ -24,9 +24,17 @@ const SOURCES = [
   "Department of Theatre Arts records & the Alexander M. Drummond Papers, Division of Rare and Manuscript Collections",
 ];
 
-const NEXUS_TEAM = [
+type NexusTeamMember = {
+  name: string;
+  role: string;
+  image: string;
+  position?: string;
+  scale?: number;
+};
+
+const NEXUS_TEAM: NexusTeamMember[] = [
   { name: "Brian Hu", role: "Website development", image: "/nexus-scholars/brian-hu.jpg", position: "center 15%" },
-  { name: "David Gilmore", role: "Scanning and digitization", image: "/nexus-scholars/david.jpg" },
+  { name: "David Gilmore", role: "Scanning and digitization", image: "/nexus-scholars/david.jpg", position: "center 96%", scale: 1.68 },
   { name: "Peter Buskirk", role: "Content research", image: "/nexus-scholars/peter.png" },
 ];
 
