@@ -44,24 +44,26 @@ export default function EraSection({ era, onClick, image, imageCaption }: EraSec
         transition: "background-color 0.22s ease, border-color 0.22s ease",
       }}
     >
-      <span
-        ref={numeralRef}
-        aria-hidden
-        style={{
-          position: "absolute",
-          left: mobile ? 14 : 56,
-          top: mobile ? -4 : -20,
-          fontSize: mobile ? 150 : 340,
-          fontWeight: 900,
-          color: "rgba(0,0,0,0.04)",
-          lineHeight: 1,
-          letterSpacing: "-10px",
-          userSelect: "none",
-          pointerEvents: "none",
-        }}
-      >
-        {era.numeral}
-      </span>
+      {!mobile && (
+        <span
+          ref={numeralRef}
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: 56,
+            top: -20,
+            fontSize: 340,
+            fontWeight: 900,
+            color: "rgba(0,0,0,0.04)",
+            lineHeight: 1,
+            letterSpacing: "-10px",
+            userSelect: "none",
+            pointerEvents: "none",
+          }}
+        >
+          {era.numeral}
+        </span>
+      )}
       {!mobile && (
       <div
         style={{

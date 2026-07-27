@@ -107,45 +107,50 @@ export default function App() {
     );
   }
 
+  if (!introDone) {
+    return <Intro onComplete={() => { sessionStorage.setItem("pma-intro-seen", "1"); setIntroDone(true); }} />;
+  }
+
+  if (!fontsReady) {
+    return <div style={{ minHeight: "100svh", background: "#0a0a0a" }} />;
+  }
+
   return (
     <>
-      <div style={{ opacity: fontsReady ? 1 : 0, transition: "opacity 260ms ease" }}>
-        <Nav
-          {...navProps}
-          transparent={atHero}
-          light={!atHero}
-        />
-        <main>
-          <Hero onExplore={() => document.getElementById("eras")?.scrollIntoView({ behavior: "smooth" })} />
-          <div id="eras" />
-          {eras.map((era) => (
-            <EraSection
-              key={era.numeral}
-              era={era}
-              image={
-                era.numeral === "I" ? "/godot_front.png" :
-                era.numeral === "II" ? "/schwartzcenterlong.webp" :
-                era.numeral === "III" ? "/scans-sz/lgd13_01.jpg" :
-                undefined
-              }
-              imageCaption={
-                era.numeral === "I" ? "Christopher Reeve 1972" :
-                era.numeral === "II" ? "Schwartz Center" :
-                era.numeral === "III" ? "Locally Grown Dance, 2013" :
-                undefined
-              }
-              onClick={
-                era.numeral === "I" ? () => setPage("pre-schwartz") :
-                era.numeral === "II" ? () => setPage("schwartz") :
-                era.numeral === "III" ? () => setPage("emergence") :
-                undefined
-              }
-            />
-          ))}
-        </main>
-        <Footer />
-      </div>
-      {!introDone && <Intro onComplete={() => { sessionStorage.setItem("pma-intro-seen", "1"); setIntroDone(true); }} />}
+      <Nav
+        {...navProps}
+        transparent={atHero}
+        light={!atHero}
+      />
+      <main>
+        <Hero onExplore={() => document.getElementById("eras")?.scrollIntoView({ behavior: "smooth" })} />
+        <div id="eras" />
+        {eras.map((era) => (
+          <EraSection
+            key={era.numeral}
+            era={era}
+            image={
+              era.numeral === "I" ? "/godot_front.png" :
+              era.numeral === "II" ? "/schwartzcenterlong.webp" :
+              era.numeral === "III" ? "/scans-sz/lgd13_01.jpg" :
+              undefined
+            }
+            imageCaption={
+              era.numeral === "I" ? "Christopher Reeve 1972" :
+              era.numeral === "II" ? "Schwartz Center" :
+              era.numeral === "III" ? "Locally Grown Dance, 2013" :
+              undefined
+            }
+            onClick={
+              era.numeral === "I" ? () => setPage("pre-schwartz") :
+              era.numeral === "II" ? () => setPage("schwartz") :
+              era.numeral === "III" ? () => setPage("emergence") :
+              undefined
+            }
+          />
+        ))}
+      </main>
+      <Footer />
     </>
   );
 }

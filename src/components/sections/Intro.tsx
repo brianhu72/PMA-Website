@@ -55,6 +55,7 @@ export default function Intro({ onComplete }: IntroProps) {
         justifyContent: 'center',
         cursor: 'pointer',
         overflow: 'hidden',
+        zIndex: 1000,
         opacity: phase === 'exit' ? 0 : 1,
         transition: `opacity ${FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
       }}>

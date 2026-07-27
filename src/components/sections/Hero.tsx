@@ -4,12 +4,12 @@ import Fireworks from "../ui/Fireworks";
 import { useIsMobile } from "../../lib/useIsMobile";
 
 const SLIDES: { src: string; position: string; label: string; fireworks?: boolean }[] = [
+  { src: Upscaled_Schwartz,             position: "left bottom",   label: "The Schwartz Years", fireworks: true },
   { src: "/hero_jero-upscaled.png",     position: "center center", label: "Before the Center" },
   { src: "/hero_filmset.jpg",           position: "center center", label: "Media Arts" },
-  { src: Upscaled_Schwartz,             position: "left bottom",   label: "The Schwartz Years", fireworks: true },
   { src: "/scans-sz/arturoui_03.jpg",   position: "center center", label: "The Resistible Rise of Arturo Ui" },
   { src: "/scans-sz/cradle_03.jpg",     position: "center center", label: "The Cradle Will Rock" },
-  { src: "/scans/springdance87_08.jpg", position: "center center", label: "Spring Dance" },
+  { src: "/hero_adventurer.jpg",        position: "center center", label: "The Adventurer" },
 ];
 
 const HOLD_MS = 5500;   // time each slide stays before advancing
@@ -175,7 +175,7 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
           />
         ))}
       </div>
-      {SLIDES[active].fireworks && <Fireworks />}
+      {!mobile && SLIDES[active].fireworks && <Fireworks />}
     </section>
   );
 }
