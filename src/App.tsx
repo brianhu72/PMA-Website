@@ -55,7 +55,7 @@ function ArchiveNote({ onClose }: { onClose: () => void }) {
           Archival Note
         </h2>
         <p style={{ fontSize: 15, lineHeight: "24px", color: "#4c4c52", margin: 0 }}>
-          This archival website is based on the contents of twenty-two boxes of material previously stored in the department’s warehouse.
+          This archival website is based on the contents of twenty-six boxes of material previously stored in the department’s warehouse.
         </p>
         <p style={{ fontSize: 15, lineHeight: "24px", color: "#4c4c52", margin: "16px 0 0" }}>
           We know there are gaps and omissions in this collection of photographs, articles, programs, historical documents, and records of the people associated with the department.
