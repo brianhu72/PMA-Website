@@ -15,6 +15,7 @@ type NavConfig = {
 };
 
 const SOURCES = [
+  "The Schwartz Archives: production photographs, playbills, and programs, 1880–2023",
   "Production playbills, Dance Concert '89 through the 1998–99 season (project collection)",
   "Cornell Chronicle: building renaming (2001), twentieth anniversary (2009), budget cuts (2010)",
   "Cornell Daily Sun: budget cuts, restructuring, and department response (2010–2012)",

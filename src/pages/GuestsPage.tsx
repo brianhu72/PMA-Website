@@ -85,10 +85,7 @@ const SECTIONS: Section[] = [
           "of his one-act Jero plays, The Trials of Brother Jero and Jero's Metamorphosis, were staged here together " +
           "as The Jero Plays, directed by David Feldshuh; the production's faculty advisor was Henry Louis Gates Jr., " +
           "then a professor in Cornell's Department of English.",
-        feature: {
-          src: "/guests/wole_soyinka.jpeg",
-          caption: "Wole Soyinka at Cornell.",
-        },
+        img: "/guests/wole_soyinka.jpeg",
       },
       {
         year: "1987 – 88",
@@ -167,7 +164,7 @@ const SECTIONS: Section[] = [
       },
       {
         year: "1997",
-        tag: "Homecoming",
+        tag: "Returning",
         name: "Harold Gould, Ph.D. '53",
         img: "/guests/harold_gould.jpg",
         note:
@@ -178,7 +175,7 @@ const SECTIONS: Section[] = [
       },
       {
         year: "1997",
-        tag: "Homecoming",
+        tag: "Returning",
         name: "Lea Shampanier Gould, M.A. '53",
         img: "/guests/lea_vernon.jpg",
         note:
@@ -294,7 +291,7 @@ const SECTIONS: Section[] = [
       },
       {
         year: "2008 – 09",
-        tag: "Homecoming",
+        tag: "Returning",
         name: "Emily Ranii '07",
         img: "/guests/emily_ranii.jpg",
         note: "She returned as a visiting lecturer to direct The Body Project and Blood Wedding at the Schwartz Center. Now artistic director of Wheelock Family Theatre at Boston University.",
@@ -327,7 +324,7 @@ const SECTIONS: Section[] = [
     entries: [
       {
         year: "2011",
-        tag: "Homecoming",
+        tag: "Returning",
         name: "Jimmy Smits, M.F.A. '82",
         img: "/guests/jimmy_smits.jpg",
         note:
