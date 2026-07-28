@@ -113,6 +113,17 @@ export default function AboutPage({ onHome, navProps }: { onHome: () => void; na
             ))}
           </div>
         </section>
+        <section style={{ borderTop: `1px solid ${RULE}`, paddingTop: 26, marginBottom: 64, maxWidth: 720 }}>
+          <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, margin: "0 0 12px" }}>
+            Archival note
+          </p>
+          <p style={{ fontSize: 14, lineHeight: "24px", color: SOFT, margin: 0 }}>
+            This archival website is based on the contents of twenty-six boxes of material previously stored in the department’s warehouse.
+          </p>
+          <p style={{ fontSize: 14, lineHeight: "24px", color: SOFT, margin: "14px 0 0" }}>
+            We know there are gaps and omissions in this collection of photographs, articles, programs, historical documents, and records of the people associated with the department.
+          </p>
+        </section>
         <div style={{ borderTop: `1px solid ${RULE}`, paddingTop: 26, marginBottom: 64 }}>
           <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, margin: "0 0 14px" }}>
             Principal sources
