@@ -22,8 +22,6 @@ export default function Intro({ onComplete }: IntroProps) {
     schedule(() => setPhase('line1'), 500);
     schedule(() => setPhase('line2'), 1500);
     schedule(() => setPhase('hold'), 3000);
-    schedule(() => setPhase('exit'), 6000);
-    schedule(onComplete, 6000 + FADE_MS);
 
     return () => {
       timers.current.forEach(window.clearTimeout);

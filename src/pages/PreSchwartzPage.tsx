@@ -927,6 +927,10 @@ export default function PreSchwartzPage({ onHome, navProps }: { onHome: () => vo
             "Architects James Stirling and Michael Wilford & Associates received the commission in 1982. Construction began in October 1984 on the Cascadilla Gorge site, and the building was formally dedicated on April 10, 1989, after a longer-than-projected build.",
             "The completed center united a 471-seat proscenium theatre, flexible theatre, black box, film forum, studios, shops, and a production environment for theatre, dance, and film under one roof.",
           ]}
+          pullQuote={{
+            text: "“…careful planning, strategic thinking, and sheer hard work have transformed what was once merely a dream into Cornell’s splendid new Center for Performing Arts.”",
+            attribution: "Frank H. T. Rhodes, prologue to the Center for Performing Arts dedication program, April 10, 1989",
+          }}
           subsections={[
             { label: "Planning and funding", title: "A project built by a wide coalition", body: "Austin Kiplinger '39, Gordon Davidson '56, Christopher Reeve '74, Beatrice Straight, Jennifer Tipton, and other alumni helped guide the campaign. Named gifts supported the Pavilion, Garden, Ames Film Production Studio, Greenroom, Gannett Plaza, and Flexible Theatre." },
           ]}
