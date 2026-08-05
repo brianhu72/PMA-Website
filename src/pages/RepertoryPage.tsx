@@ -202,7 +202,7 @@ const SEASONS: Season[] = [
     label: "2022–23",
     mode: "plates",
     productions: [
-      { title: "Baby Rock", type: "Theatre" },
+      { title: "Baby Rock", type: "Musical" },
       { title: "HumaNatures", type: "Dance" },
       { title: "Locally Grown Dance 2023", type: "Dance" },
       { title: "Mine", type: "Theatre" },
