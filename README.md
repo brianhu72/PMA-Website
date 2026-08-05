@@ -12,7 +12,7 @@ An interactive web application chronicling 145 years of theater at Cornell Unive
 
 ![Narrative era page](docs/screenshot-text.png)
 
-_The Schwartz-era narrative, one of three long-form documentary sections._
+_The Schwartz-era period, one of three long-form documentary sections._
 
 ---
 
@@ -32,7 +32,7 @@ The site turns thousands of digitized archival items (playbills, production phot
 - **II · The Schwartz Center:** the department's first permanent home
 - **III · Emergence:** the modern Performing & Media Arts department
 
-Alongside the era narratives, the site includes a searchable **directory** of 180+ alumni, faculty, and guest artists, a **repertory** catalog of 350+ productions, and dedicated pages for notable guests and productions.
+Alongside the era sections, the site includes a searchable **directory** of 180+ alumni, faculty, and guest artists, a **repertory** catalog of 350+ productions, and dedicated pages for notable guests and productions.
 
 ## Highlights
 
