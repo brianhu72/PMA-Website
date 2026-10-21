@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Phase = 'start' | 'line1' | 'line2' | 'hold' | 'exit';
 
@@ -7,11 +7,20 @@ interface IntroProps {
 }
 
 const FADE_MS = 800;
+const INTRO_MS = 8000;
 
 export default function Intro({ onComplete }: IntroProps) {
   const [phase, setPhase] = useState<Phase>('start');
   const timers = useRef<number[]>([]);
   const skipping = useRef(false);
+
+  const skip = useCallback(() => {
+    if (skipping.current) return;
+    skipping.current = true;
+    timers.current.forEach(window.clearTimeout);
+    setPhase('exit');
+    timers.current.push(window.setTimeout(onComplete, FADE_MS));
+  }, [onComplete]);
 
   useEffect(() => {
     const schedule = (callback: () => void, delay: number) => {
@@ -22,19 +31,14 @@ export default function Intro({ onComplete }: IntroProps) {
     schedule(() => setPhase('line1'), 500);
     schedule(() => setPhase('line2'), 1500);
     schedule(() => setPhase('hold'), 3000);
+    schedule(skip, INTRO_MS);
 
     return () => {
       timers.current.forEach(window.clearTimeout);
+      timers.current = [];
+      skipping.current = false;
     };
-  }, []);
-
-  const skip = () => {
-    if (skipping.current || phase === 'exit') return;
-    skipping.current = true;
-    timers.current.forEach(window.clearTimeout);
-    setPhase('exit');
-    window.setTimeout(onComplete, FADE_MS);
-  };
+  }, [skip]);
 
   const visible = (cond: boolean) => ({
     opacity: cond ? 1 : 0,
