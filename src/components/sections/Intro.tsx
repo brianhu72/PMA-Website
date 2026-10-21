@@ -7,7 +7,7 @@ interface IntroProps {
 }
 
 const FADE_MS = 800;
-const INTRO_MS = 8000;
+const INTRO_MS = 6000;
 
 export default function Intro({ onComplete }: IntroProps) {
   const [phase, setPhase] = useState<Phase>('start');
