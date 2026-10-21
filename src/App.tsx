@@ -13,6 +13,7 @@ import DirectoryPage from "./pages/DirectoryPage";
 import AboutPage from "./pages/AboutPage";
 import RepertoryPage from "./pages/RepertoryPage";
 import GuestsPage from "./pages/GuestsPage";
+import { Analytics } from "@vercel/analytics/react";
 
 type Page = "home" | "pre-schwartz" | "schwartz" | "emergence" | "directory" | "about" | "repertory" | "guests";
 
@@ -74,44 +75,87 @@ export default function App() {
   };
 
   if (page === "pre-schwartz") {
-    return <PreSchwartzPage onHome={() => setPage("home")} navProps={navProps} />;
+    return (
+      <>
+        <PreSchwartzPage onHome={() => setPage("home")} navProps={navProps} />
+        <Analytics />
+      </>
+    );
   }
 
   if (page === "schwartz") {
-    return <SchwartzPage onHome={() => setPage("home")} navProps={navProps} />;
+    return (
+      <>
+        <SchwartzPage onHome={() => setPage("home")} navProps={navProps} />
+        <Analytics />
+      </>
+    );
   }
 
   if (page === "emergence") {
-    return <EmergencePage onHome={() => setPage("home")} navProps={navProps} />;
+    return (
+      <>
+        <EmergencePage onHome={() => setPage("home")} navProps={navProps} />
+        <Analytics />
+      </>
+    );
   }
 
   if (page === "about") {
-    return <AboutPage onHome={() => setPage("home")} navProps={navProps} />;
+    return (
+      <>
+        <AboutPage onHome={() => setPage("home")} navProps={navProps} />
+        <Analytics />
+      </>
+    );
   }
 
   if (page === "repertory") {
-    return <RepertoryPage onHome={() => setPage("home")} navProps={navProps} />;
+    return (
+      <>
+        <RepertoryPage onHome={() => setPage("home")} navProps={navProps} />
+        <Analytics />
+      </>
+    );
   }
 
   if (page === "guests") {
-    return <GuestsPage onHome={() => setPage("home")} navProps={navProps} />;
+    return (
+      <>
+        <GuestsPage onHome={() => setPage("home")} navProps={navProps} />
+        <Analytics />
+      </>
+    );
   }
 
   if (page === "directory") {
     return (
-      <DirectoryPage
-        onHome={() => setPage("home")}
-        navProps={navProps}
-      />
+      <>
+        <DirectoryPage
+          onHome={() => setPage("home")}
+          navProps={navProps}
+        />
+        <Analytics />
+      </>
     );
   }
 
   if (!introDone) {
-    return <Intro onComplete={() => { sessionStorage.setItem("pma-intro-seen", "1"); setIntroDone(true); }} />;
+    return (
+      <>
+        <Intro onComplete={() => { sessionStorage.setItem("pma-intro-seen", "1"); setIntroDone(true); }} />
+        <Analytics />
+      </>
+    );
   }
 
   if (!fontsReady) {
-    return <div style={{ minHeight: "100svh", background: "#0a0a0a" }} />;
+    return (
+      <>
+        <div style={{ minHeight: "100svh", background: "#0a0a0a" }} />
+        <Analytics />
+      </>
+    );
   }
 
   return (
@@ -150,6 +194,7 @@ export default function App() {
         ))}
       </main>
       <Footer />
+      <Analytics />
     </>
   );
 }
